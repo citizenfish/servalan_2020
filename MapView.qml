@@ -31,14 +31,10 @@ Item {
         property alias mapView : mapView
 
         anchors.fill: parent
-        //plugin: mapPlugin//zoomStack //mapPlugin
-        center: QtPositioning.coordinate(51.3141, -0.5935) // Surrey Heath
+        center: QtPositioning.coordinate(51.3141, -0.5935)
         zoomLevel: 14
 
-
-
-
-        //for Zoomstack
+        //for Zoomstack, TODO this does not work at present it defaults to mapbox
         MapParameter {
             type: "source"
             property var sourceType: 'vector'
@@ -83,7 +79,6 @@ Item {
 
 
         /**************** MAP SPECIFIC FUNCTIONS *************/
-
         function mapClicked(x,y) {
             var coord = mapView.toCoordinate(Qt.point(x,y))
             DB.modelCommandExecute('addMarker', {"coordinate" : coord});
