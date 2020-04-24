@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>mainAppWindow.qml</file>
+        <file>MainAppWindowMenuBar.qml</file>
+        <file>MainAppWindowToolBar.qml</file>
+        <file>MainAppWindowFooterBar.qml</file>
+        <file>MapView.qml</file>
+        <file>MapViewProfileWindow.qml</file>
+        <file>MainAppWindowSideBar.qml</file>
+        <file>storageFunctions.js</file>
+        <file>GPXLine.qml</file>
+        <file>GPXDragMarker.qml</file>
+        <file>FileManager.qml</file>
+        <file>MapChooserWindow.qml</file>
+    </qresource>
+</RCC>
