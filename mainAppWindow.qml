@@ -66,16 +66,7 @@ ApplicationWindow {
         id: footerBar
     }
 
-    function toggleEditMode(){
-        if(mainApplicationWindow.editMode === 'Off'){
-             gpxModel.setEditLocation(gpxModel.rowCount());
-             this.editMode = 'On';
-        }
-        else{
-            this.editMode = 'Off';
-        }
-        footerBar.update_edit_status(this.editMode);
-    }
+
 
     Component.onCompleted: {
         mapChooserWindow.visible = true;

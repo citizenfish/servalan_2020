@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
-
+import "mapFunctions.js" as MF
 
 ToolBar {
 
@@ -21,7 +21,7 @@ ToolBar {
         }
         Button {
             text: qsTr("Edit")
-            onClicked: mainApplicationWindow.toggleEditMode();
+            onClicked: MF.toggleEditMode();
 
         }
 

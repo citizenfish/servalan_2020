@@ -12,5 +12,6 @@
         <file>GPXDragMarker.qml</file>
         <file>FileManager.qml</file>
         <file>MapChooserWindow.qml</file>
+        <file>mapFunctions.js</file>
     </qresource>
 </RCC>

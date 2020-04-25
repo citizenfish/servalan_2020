@@ -4,6 +4,7 @@ import QtQuick.Window 2.3
 import QtPositioning 5.12
 import QtQuick.Controls 2.0
 import "storageFunctions.js" as DB
+import "mapFunctions.js" as MF
 
 Item {
     //Alias needed to expose the mapView id up a level
@@ -46,7 +47,7 @@ Item {
             anchors.fill: parent
             enabled: mainApplicationWindow.editMode === 'On' ? true : false
             onClicked: {
-                mapView.mapClicked(mouse.x,mouse.y)
+                MF.mapClicked(mouse.x,mouse.y)
             }
         }
 
@@ -70,20 +71,19 @@ Item {
         //Update footer status as map is zoomed
 
         onZoomLevelChanged: {
-            footerBar.update_zoom_status('Zoom ' + Math.round(zoomLevel));
+            MF.update_zoom_status();
         }
 
         onCenterChanged: {
-            footerBar.update_location_status('Lonlat(' + mapView.center.longitude.toFixed(3) + ',' + mapView.center.latitude.toFixed(3) +')');
+            MF.update_location_status();
         }
 
 
-        /**************** MAP SPECIFIC FUNCTIONS *************/
-        function mapClicked(x,y) {
-            var coord = mapView.toCoordinate(Qt.point(x,y))
-            DB.modelCommandExecute('addMarker', {"coordinate" : coord});
-        }
+        Component.onCompleted: {
+            MF.update_zoom_status();
+            MF.update_location_status();
 
+        }
     }
 
     //Zoom control implemented as a slider
