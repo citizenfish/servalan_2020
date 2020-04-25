@@ -30,6 +30,7 @@ The majority of functionality is provided in QML. Start with mainAppWindow.qml a
 ### Javascript
 
 - storageFunctions.js holds code linked to storing data and handling undo/redo
+- mapFunctions.js code for map user interface and location operations
 
 ## Building Servalan
 
