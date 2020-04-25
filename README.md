@@ -1,6 +1,6 @@
 # Servalan GPX Route Editor
 
-I've been tinkering around with maps and routes for years and thought it was high time I ahd a go at writing my own routing package.
+I've been tinkering around with maps and routes for years and thought it was high time I had a go at writing my own route creation package.
 
 This is an experiment in QtQuick/QML to see what is possible. This is by no means a production ready package, simply a few tinkerings
 
