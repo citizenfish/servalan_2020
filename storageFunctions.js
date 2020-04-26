@@ -5,6 +5,11 @@ function fileOperations(mode, title) {
     if(mode !== undefined)
         fileDialog.mode = mode;
 
+    //Kill undo if we are working on another file
+    if(mode === 'open' || mode === 'close'){
+        mainApplicationWindow.commandStack =[];
+        mainApplicationWindow.commandStackPointer =0;
+    }
 
     if(mode === 'open'){
         //Can only select a file that exists
