@@ -27,7 +27,10 @@ ToolBar {
 
         Button{
             text: qsTr("TEST")
+            onClicked: {
 
+                //mapChooserWindow.visible = true;
+            }
         }
     }
 

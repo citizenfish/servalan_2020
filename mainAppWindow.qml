@@ -47,8 +47,6 @@ ApplicationWindow {
     }
 
 
-
-
     //For opening of GPX files
     FileManager {
         id: fileManager
@@ -67,18 +65,19 @@ ApplicationWindow {
     }
 
 
-
     Component.onCompleted: {
+        //Window to choose the map type
         mapChooserWindow.visible = true;
-
       }
 
     Shortcut {
+        //UNDO binding
         sequence: StandardKey.Undo
         onActivated: DB.modelCommandUndo();
     }
 
     Shortcut {
+        //REDO binding
         sequence: StandardKey.Redo
         onActivated: DB.modelCommandRedo();
     }

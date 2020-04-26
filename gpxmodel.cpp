@@ -47,7 +47,9 @@ Q_INVOKABLE QGeoCoordinate GPXModel::deleteMarkerAtIndex(int index){
  *
  */
 
-Q_INVOKABLE void GPXModel::setEditLocation(const int pathIndex, const int range) {
+Q_INVOKABLE void GPXModel::setEditLocation(const int pathIndex, int range) {
+
+    if(range == -1) range = numDragHandles;
 
     int pathCount = m_coordinates.count() - 1;
     if(pathIndex < 0 || pathIndex > pathCount) return;

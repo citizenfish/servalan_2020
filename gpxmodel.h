@@ -36,7 +36,7 @@ public:
 Q_INVOKABLE int addMarker(const QGeoCoordinate &coordinate, float elevation = -1, QDateTime dateTime = QDateTime::currentDateTime());
 Q_INVOKABLE bool loadFromFile(const QUrl fileName);
 Q_INVOKABLE bool saveToFile(QUrl filename = QUrl());
-Q_INVOKABLE void setEditLocation(const int pathIndex, const int range = 10);
+Q_INVOKABLE void setEditLocation(const int pathIndex,  int range = -1);
 Q_INVOKABLE int addMarkerAtIndex(const QGeoCoordinate &coordinate, int index, float elevation = -1, QDateTime dateTime = QDateTime::currentDateTime());
 Q_INVOKABLE QGeoCoordinate deleteMarkerAtIndex(int index);
 Q_INVOKABLE QGeoCoordinate updateMarkerLocation(const QGeoCoordinate &coordinate, int index);
@@ -47,6 +47,10 @@ Q_INVOKABLE void clearMarkers( ){
             m_coordinates.clear();
             endRemoveRows();
 };
+    Q_INVOKABLE int setNumDragHandles(int num){
+        numDragHandles = num;
+        return numDragHandles;
+    }
 int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 bool removeRow(int row, const QModelIndex &parent = QModelIndex());
@@ -59,6 +63,7 @@ signals:
     void pathChanged();
 
 private:
+    int numDragHandles = 30;
     QVector<gpxCoordinate> m_coordinates;
     QVector<gpxCoordinate> edit_markers;
     QUrl m_fileName;

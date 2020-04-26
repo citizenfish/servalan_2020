@@ -13,5 +13,8 @@
         <file>FileManager.qml</file>
         <file>MapChooserWindow.qml</file>
         <file>mapFunctions.js</file>
+        <file>openstreetmap.png</file>
+        <file>mapbox.png</file>
     </qresource>
+    <qresource prefix="/images"/>
 </RCC>

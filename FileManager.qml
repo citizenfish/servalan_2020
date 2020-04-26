@@ -5,11 +5,14 @@ import "storageFunctions.js" as DB
 
 Item {
 
+    //Expose javascript here so it gets scope
+    property var fileOperations: DB.fileOperations
 
     FileDialog {
         id:fileDialog
         property var mode: 'open'
         property var chainOpen: false
+
         sidebarVisible: true
 
         onAccepted: {
@@ -32,10 +35,13 @@ Item {
                 DB.fileOperations('open');
             }
         }
+
+
     }
 
     MessageDialog {
 
+            //Modal window used for warnings during file operations
             id:fileMessageDialog
             icon: StandardIcon.Question
             standardButtons: StandardButton.Yes | StandardButton.No | StandardButton.Cancel
@@ -63,6 +69,5 @@ Item {
 
             }
     }
-
 
 }
