@@ -4,16 +4,20 @@ import "storageFunctions.js" as DB
 import "mapFunctions.js" as MF
 
 MapPolyline {
-    line.width: 5
+    line.width: 8
     path: gpxModel.path
-    line.color: 'white'
+    line.color: 'grey'
+    opacity: 0.8
+
     MouseArea{
         id: polyLineMouse
-        enabled: mainApplicationWindow.editMode == 'On' ? true : false
+        enabled: mainApplicationWindow.editMode === 'On' ? true : false
         anchors.fill: parent
-        //hoverEnabled: true
+        //hoverEnabled: true //can't use this as it takes bounding box of line
+
         onEntered: {
             //when we enter the line we show the marker handles to allow editing
+            //this is currently triggered with a click
             var index = MF.get_index(gpxLine,mouseX,mouseY);
             gpxModel.setEditLocation(index);
 

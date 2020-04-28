@@ -29,7 +29,8 @@ ToolBar {
             text: qsTr("TEST")
             onClicked: {
 
-                //mapChooserWindow.visible = true;
+                var changed = gpxModel.addHeightToPath(0);
+                console.log("Added " + changed + " height points");
             }
         }
     }

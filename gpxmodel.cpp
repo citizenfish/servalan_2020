@@ -1,5 +1,40 @@
 #include "gpxmodel.h"
 
+Q_INVOKABLE int GPXModel::addHeightToPath(const int index, const int limit) {
+
+    int iPixel, iLine;
+    int count = 0;
+    double adfPixel[2];
+
+    int markers = std::min(m_coordinates.count(), index + limit); //make sure we do not overshoot
+    if(markers == -1) //-1 sets everything in array
+        markers = m_coordinates.count();
+
+    for (int i = index; i < markers; i++) {
+
+        iPixel = static_cast<int>(floor(
+            adfInvGeoTransform[0]
+            + adfInvGeoTransform[1] * m_coordinates[i].latlon.longitude()
+            + adfInvGeoTransform[2] * m_coordinates[i].latlon.latitude()));
+
+        iLine = static_cast<int>(floor(
+            adfInvGeoTransform[3]
+            + adfInvGeoTransform[4] * m_coordinates[i].latlon.longitude()
+            + adfInvGeoTransform[5] * m_coordinates[i].latlon.latitude()));
+
+        if(GDALRasterIO( heightBand, GF_Read, iPixel, iLine, 1, 1,adfPixel, 1, 1, GDT_CFloat64, 0, 0)) {
+            m_coordinates[i].ele = adfPixel[0];
+        } else {
+           m_coordinates[i].ele = 0;
+        }
+
+
+        count++;
+    }
+
+    return count;
+}
+
 Q_INVOKABLE int GPXModel::addMarker(const QGeoCoordinate &coordinate, float elevation, QDateTime dateTime) {
 
     gpxCoordinate item ={coordinate,elevation, dateTime, m_coordinates.count()};
@@ -249,3 +284,4 @@ QVariantList GPXModel::path() const {
     }
     return path;
 }
+

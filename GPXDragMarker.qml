@@ -12,8 +12,9 @@ MapCircle{
     property var mDetails //holds drag starting position
 
     id:gpxDragMarker
-    radius: 30
-    color: '#800000FF'
+    radius: 50
+    color: 'yellow'
+    opacity: 0.6
 
     Drag.onDragFinished: MF.marker_dragged();
     MouseArea{

@@ -25,3 +25,7 @@ RESOURCES += \
 
 DISTFILES += \
     README.md
+
+INCLUDEPATH += /usr/local/include
+LIBS += -L/usr/local/lib/ -lgdal
+PRE_TARGETDEPS += /usr/local/lib/libgdal.a
