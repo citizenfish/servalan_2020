@@ -1,5 +1,6 @@
 #include "gpxmodel.h"
 
+
 Q_INVOKABLE int GPXModel::addHeightToPath(const int index, const int limit) {
 
     int iPixel, iLine;
@@ -22,10 +23,11 @@ Q_INVOKABLE int GPXModel::addHeightToPath(const int index, const int limit) {
             + adfInvGeoTransform[4] * m_coordinates[i].latlon.longitude()
             + adfInvGeoTransform[5] * m_coordinates[i].latlon.latitude()));
 
-        if(GDALRasterIO( heightBand, GF_Read, iPixel, iLine, 1, 1,adfPixel, 1, 1, GDT_CFloat64, 0, 0)) {
+        //TODO I need to understand why ! works
+        if(!GDALRasterIO( heightBand, GF_Read, iPixel, iLine, 1, 1,adfPixel, 1, 1, GDT_CFloat64, 0, 0)) {
             m_coordinates[i].ele = adfPixel[0];
         } else {
-           m_coordinates[i].ele = 0;
+            m_coordinates[i].ele = 0;
         }
 
 
@@ -37,23 +39,42 @@ Q_INVOKABLE int GPXModel::addHeightToPath(const int index, const int limit) {
 
 Q_INVOKABLE int GPXModel::addMarker(const QGeoCoordinate &coordinate, float elevation, QDateTime dateTime) {
 
-    gpxCoordinate item ={coordinate,elevation, dateTime, m_coordinates.count()};
+    double distance = 0;
+    int currentCount = m_coordinates.count();
+
+    if(currentCount > 0) {
+        distance = latlondist_vincenty(m_coordinates[currentCount - 1].latlon.latitude(),
+                                       m_coordinates[currentCount - 1].latlon.longitude(),
+                                       coordinate.latitude(),
+                                       coordinate.longitude());
+    }
+    gpxCoordinate item ={coordinate,elevation, dateTime, currentCount, distance};
 
     m_coordinates.append(item);
-    setEditLocation(m_coordinates.count() - 1);
+    setEditLocation(currentCount);
 
-    return m_coordinates.count() - 1;
+    addHeightToPath(currentCount,1);
+    return currentCount - 1;
 }
 
 Q_INVOKABLE int GPXModel::addMarkerAtIndex(const QGeoCoordinate &coordinate, int index, float elevation, QDateTime dateTime) {
 
-    if(index >= m_coordinates.count()){
+    int currentCount = m_coordinates.count();
+
+    if(index >= currentCount){
         qDebug() << "Index out of range so appending " << index;
         return addMarker(coordinate,elevation,dateTime);
     }
-
+    double distance = 0;
+    if(index > 0) {
+        distance = latlondist_vincenty(m_coordinates[index].latlon.latitude(),
+                                       m_coordinates[index].latlon.longitude(),
+                                       coordinate.latitude(),
+                                       coordinate.longitude());
+    }
     index++;
-    gpxCoordinate item ={coordinate,elevation, dateTime, index};
+
+    gpxCoordinate item ={coordinate,elevation, dateTime, index, distance};
 
     m_coordinates.insert(index,1,item);
     reindex(index);
@@ -102,11 +123,30 @@ Q_INVOKABLE void GPXModel::setEditLocation(const int pathIndex, int range) {
     edit_markers = m_coordinates.mid(lower_index, add_range + 1);
     endInsertRows();
 
+    //Update path length and height gain
+    pathLength = 0;
+    totalHeightGain = 0;
+    totalDescent = 0;
+    float dHeight = 0;
+
+    for(int i = 1; i < m_coordinates.count(); i++) {
+        pathLength += m_coordinates[i].distanceFromPrevious;
+        dHeight = m_coordinates[i].ele > m_coordinates[i-1].ele;
+        if(dHeight > 0)
+            totalHeightGain += dHeight;
+        if(dHeight < 0)
+            totalDescent += dHeight;
+    }
+
+    qDebug() << "Length " <<pathLength << " Height " <<totalHeightGain << " Descent " <<totalDescent;
+
+
 }
 
 Q_INVOKABLE QGeoCoordinate GPXModel::updateMarkerLocation(const QGeoCoordinate &coordinate, int index) {
 
     m_coordinates[index].latlon = coordinate;
+    this->addHeightToPath(index,1); //need to update the height value as well
     setEditLocation(index);
     return coordinate;
 }
@@ -258,20 +298,22 @@ QVariant GPXModel::data(const QModelIndex &index, int role) const {
         return QVariant::fromValue(edit_markers[index.row()].latlon);
     else if(role == GPXModel::itemRole)
         return QVariant::fromValue(edit_markers[index.row()].index);
-
+    else if(role == GPXModel::graphRole)
+        return QVariant::fromValue(m_coordinates[index.row()]);
     return QVariant();
 }
 
 /*
  * positionRole is used for displaying markers
  * itemRole is used for dispalying the index value of a marker so we can find its corresponding line coordinate
- *
+ * grapRole is for graphing but I may rewrite it ;-)
  */
 QHash<int, QByteArray> GPXModel::roleNames() const {
     QHash<int, QByteArray> roles;
 
     roles[positionRole] = "positionRole";
     roles[itemRole]     = "itemRole";
+    roles[graphRole]    = "graphRole";
 
     return roles;
 }

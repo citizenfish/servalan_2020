@@ -1,7 +1,6 @@
 #ifndef MAPMARKER_H
 #define MAPMARKER_H
 
-
 #include <QAbstractListModel>
 #include <QGeoCoordinate>
 #include <QDebug>
@@ -9,12 +8,14 @@
 #include <QQuickItem>
 #include <QXmlStreamReader>
 #include "gdal_priv.h"
+#include "gisfunctions.h"
 
 struct gpxCoordinate {
     QGeoCoordinate latlon;
     float ele;
     QDateTime time;
     int index;
+    double distanceFromPrevious;
 };
 
 class GPXModel : public QAbstractListModel {
@@ -22,7 +23,7 @@ class GPXModel : public QAbstractListModel {
     Q_PROPERTY(QVariantList path READ path NOTIFY pathChanged)
 
 public:
-    enum GPXModelRoles{positionRole = Qt::UserRole, pathRole, itemRole};
+    enum GPXModelRoles{positionRole = Qt::UserRole, pathRole, itemRole, graphRole};
 
     GPXModel(QObject *parent=nullptr): QAbstractListModel(parent)
     {
@@ -42,7 +43,6 @@ public:
         pzFileName = "/Users/daveb/mapping-data/SRTM/all_uk_data.tif";
         testDataSet =  (GDALDataset *) GDALOpen(pzFileName,GA_ReadOnly);
         heightBand = testDataSet->GetRasterBand(1);
-
         //Transformers from coordinate to pixel grid
         if( GDALGetGeoTransform( testDataSet, adfGeoTransform ) != CE_None ) {
             CPLError(CE_Failure, CPLE_AppDefined, "Cannot get geotransform");
@@ -53,6 +53,8 @@ public:
             CPLError(CE_Failure, CPLE_AppDefined, "Cannot invert geotransform");
             exit( 1 );
         }
+
+        qDebug() <<"GDAL ALL DONE";
     }
 
 Q_INVOKABLE int addMarker(const QGeoCoordinate &coordinate, float elevation = -1, QDateTime dateTime = QDateTime::currentDateTime());
@@ -69,11 +71,10 @@ Q_INVOKABLE void clearMarkers( ){
             m_coordinates.clear();
             endRemoveRows();
 };
-    Q_INVOKABLE int setNumDragHandles(int num){
+Q_INVOKABLE int setNumDragHandles(int num){
         numDragHandles = num;
         return numDragHandles;
     }
-
 Q_INVOKABLE int addHeightToPath(const int index, const int limit = 1);
 
 int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -92,6 +93,9 @@ private:
     QVector<gpxCoordinate> m_coordinates;
     QVector<gpxCoordinate> edit_markers;
     QUrl m_fileName;
+    float pathLength;
+    float totalHeightGain;
+    float totalDescent;
 
     //gdal stuff
     GDALDataset *testDataSet;

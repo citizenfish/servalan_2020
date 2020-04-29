@@ -8,11 +8,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    gisfunctions.cpp \
     gpxmodel.cpp \
     main.cpp \
     mainappwindow.cpp
 
 HEADERS += \
+    gisfunctions.h \
     gpxmodel.h \
     mainappwindow.h
 

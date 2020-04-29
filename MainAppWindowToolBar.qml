@@ -26,7 +26,7 @@ ToolBar {
         }
 
         Button{
-            text: qsTr("TEST")
+            text: qsTr("Add Height")
             onClicked: {
 
                 var changed = gpxModel.addHeightToPath(0);
