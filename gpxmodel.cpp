@@ -131,14 +131,12 @@ Q_INVOKABLE void GPXModel::setEditLocation(const int pathIndex, int range) {
 
     for(int i = 1; i < m_coordinates.count(); i++) {
         pathLength += m_coordinates[i].distanceFromPrevious;
-        dHeight = m_coordinates[i].ele > m_coordinates[i-1].ele;
+        dHeight = m_coordinates[i].ele - m_coordinates[i-1].ele;
         if(dHeight > 0)
             totalHeightGain += dHeight;
         if(dHeight < 0)
             totalDescent += dHeight;
     }
-
-    qDebug() << "Length " <<pathLength << " Height " <<totalHeightGain << " Descent " <<totalDescent;
 
 
 }
@@ -298,8 +296,6 @@ QVariant GPXModel::data(const QModelIndex &index, int role) const {
         return QVariant::fromValue(edit_markers[index.row()].latlon);
     else if(role == GPXModel::itemRole)
         return QVariant::fromValue(edit_markers[index.row()].index);
-    else if(role == GPXModel::graphRole)
-        return QVariant::fromValue(m_coordinates[index.row()]);
     return QVariant();
 }
 

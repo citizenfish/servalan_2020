@@ -23,7 +23,7 @@ class GPXModel : public QAbstractListModel {
     Q_PROPERTY(QVariantList path READ path NOTIFY pathChanged)
 
 public:
-    enum GPXModelRoles{positionRole = Qt::UserRole, pathRole, itemRole, graphRole};
+    enum GPXModelRoles{positionRole = Qt::UserRole, pathRole, itemRole,graphRole};
 
     GPXModel(QObject *parent=nullptr): QAbstractListModel(parent)
     {
