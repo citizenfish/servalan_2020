@@ -15,6 +15,7 @@ The majority of functionality is provided in QML. Start with mainAppWindow.qml a
 ### C++
 - main.cpp is (of course) the entry point. It simply registers C++ types with QML and starts the QML engine
 - gpxmode.cpp is a model used by QML to hold and display a GPX file. It's a bit of a hack TBH as it has multiple data structures and implements a lot of invokable methods for what should be standard model functions. But this is necessary to make the UI performant as a track with 10,000 points will perform horribly with 10,000 drag handles.
+- gisfunctions.cpp holds a series of uility functions for processing poistional data, mainly distance and bearings
 
 ### QML
 - mainAppWindow.qml is the container for the user interface
