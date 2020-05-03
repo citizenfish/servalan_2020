@@ -1,5 +1,36 @@
 #include "gpxmodel.h"
 
+GPXModel::GPXModel(QObject *parent): QAbstractListModel(parent)
+{
+    connect(this, &QAbstractListModel::rowsInserted, this, &GPXModel::pathChanged);
+    connect(this, &QAbstractListModel::rowsRemoved, this, &GPXModel::pathChanged);
+    connect(this, &QAbstractListModel::dataChanged, this, &GPXModel::pathChanged);
+    connect(this, &QAbstractListModel::modelReset, this, &GPXModel::pathChanged);
+    connect(this, &QAbstractListModel::rowsMoved, this, &GPXModel::pathChanged);
+
+    //Initialise GDAL
+    qDebug() << "Initialising GDAL";
+
+    GDALAllRegister();
+
+    const char *pzFileName = nullptr;
+    //TODO find a way to do this in qrc file, think it may be impossible
+    pzFileName = "/Users/daveb/mapping-data/SRTM/all_uk_data.tif";
+    testDataSet =  (GDALDataset *) GDALOpen(pzFileName,GA_ReadOnly);
+    heightBand = testDataSet->GetRasterBand(1);
+    //Transformers from coordinate to pixel grid
+    if( GDALGetGeoTransform( testDataSet, adfGeoTransform ) != CE_None ) {
+        CPLError(CE_Failure, CPLE_AppDefined, "Cannot get geotransform");
+        exit( 1 );
+    }
+
+    if( !GDALInvGeoTransform( adfGeoTransform, adfInvGeoTransform ) ) {
+        CPLError(CE_Failure, CPLE_AppDefined, "Cannot invert geotransform");
+        exit( 1 );
+    }
+
+    qDebug() <<"GDAL ALL DONE";
+}
 
 Q_INVOKABLE int GPXModel::addHeightToPath(const int index, const int limit) {
 
@@ -97,6 +128,19 @@ Q_INVOKABLE QGeoCoordinate GPXModel::deleteMarkerAtIndex(int index){
 
     return ret_var;
 }
+
+Q_INVOKABLE void GPXModel::clearMarkers( ){
+            beginRemoveRows(QModelIndex(),0,rowCount());
+            edit_markers.clear();
+            m_coordinates.clear();
+            endRemoveRows();
+};
+
+Q_INVOKABLE int GPXModel::setNumDragHandles(int num){
+        numDragHandles = num;
+        return numDragHandles;
+    }
+
 /*
  * This function creates the edit_markers vector which holds the drag handles
  * The vector is centered around index and creates "range" makers
@@ -190,6 +234,8 @@ Q_INVOKABLE bool GPXModel::saveToFile(QUrl fileName){
 
     return false;
 }
+
+Q_INVOKABLE QString GPXModel::getFileName() {  return m_fileName.fileName();};
 
 Q_INVOKABLE bool GPXModel::loadFromFile(const QUrl fileName) {
 
@@ -309,7 +355,7 @@ QHash<int, QByteArray> GPXModel::roleNames() const {
 
     roles[positionRole] = "positionRole";
     roles[itemRole]     = "itemRole";
-    roles[graphRole]    = "graphRole";
+    roles[waypointRole] = "waypointRole";
 
     return roles;
 }

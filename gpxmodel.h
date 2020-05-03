@@ -18,65 +18,37 @@ struct gpxCoordinate {
     double distanceFromPrevious;
 };
 
+struct waypointMarker {
+    QGeoCoordinate latlon;
+    float ele;
+    QString description;
+};
+
 class GPXModel : public QAbstractListModel {
     Q_OBJECT
     Q_PROPERTY(QVariantList path READ path NOTIFY pathChanged)
 
 public:
-    enum GPXModelRoles{positionRole = Qt::UserRole, pathRole, itemRole,graphRole};
+//Constructor
+GPXModel(QObject *parent=nullptr);
 
-    GPXModel(QObject *parent=nullptr): QAbstractListModel(parent)
-    {
-        connect(this, &QAbstractListModel::rowsInserted, this, &GPXModel::pathChanged);
-        connect(this, &QAbstractListModel::rowsRemoved, this, &GPXModel::pathChanged);
-        connect(this, &QAbstractListModel::dataChanged, this, &GPXModel::pathChanged);
-        connect(this, &QAbstractListModel::modelReset, this, &GPXModel::pathChanged);
-        connect(this, &QAbstractListModel::rowsMoved, this, &GPXModel::pathChanged);
+//Definition of roles used by QML to access the model
+enum GPXModelRoles{positionRole = Qt::UserRole, pathRole, itemRole, waypointRole};
 
-        //Initialise GDAL
-        qDebug() << "Initialising GDAL";
-
-        GDALAllRegister();
-
-        const char *pzFileName = nullptr;
-        //TODO find a way to do this in qrc file, think it may be impossible
-        pzFileName = "/Users/daveb/mapping-data/SRTM/all_uk_data.tif";
-        testDataSet =  (GDALDataset *) GDALOpen(pzFileName,GA_ReadOnly);
-        heightBand = testDataSet->GetRasterBand(1);
-        //Transformers from coordinate to pixel grid
-        if( GDALGetGeoTransform( testDataSet, adfGeoTransform ) != CE_None ) {
-            CPLError(CE_Failure, CPLE_AppDefined, "Cannot get geotransform");
-            exit( 1 );
-        }
-
-        if( !GDALInvGeoTransform( adfGeoTransform, adfInvGeoTransform ) ) {
-            CPLError(CE_Failure, CPLE_AppDefined, "Cannot invert geotransform");
-            exit( 1 );
-        }
-
-        qDebug() <<"GDAL ALL DONE";
-    }
-
+//Externally invokable methods
 Q_INVOKABLE int addMarker(const QGeoCoordinate &coordinate, float elevation = -1, QDateTime dateTime = QDateTime::currentDateTime());
-Q_INVOKABLE bool loadFromFile(const QUrl fileName);
-Q_INVOKABLE bool saveToFile(QUrl filename = QUrl());
-Q_INVOKABLE void setEditLocation(const int pathIndex,  int range = -1);
 Q_INVOKABLE int addMarkerAtIndex(const QGeoCoordinate &coordinate, int index, float elevation = -1, QDateTime dateTime = QDateTime::currentDateTime());
 Q_INVOKABLE QGeoCoordinate deleteMarkerAtIndex(int index);
+Q_INVOKABLE void clearMarkers( );
 Q_INVOKABLE QGeoCoordinate updateMarkerLocation(const QGeoCoordinate &coordinate, int index);
-Q_INVOKABLE QString getFileName() {  return m_fileName.fileName();};
-Q_INVOKABLE void clearMarkers( ){
-            beginRemoveRows(QModelIndex(),0,rowCount());
-            edit_markers.clear();
-            m_coordinates.clear();
-            endRemoveRows();
-};
-Q_INVOKABLE int setNumDragHandles(int num){
-        numDragHandles = num;
-        return numDragHandles;
-    }
+Q_INVOKABLE void setEditLocation(const int pathIndex,  int range = -1);
 Q_INVOKABLE int addHeightToPath(const int index, const int limit = 1);
+Q_INVOKABLE int setNumDragHandles(int num);
+Q_INVOKABLE bool loadFromFile(const QUrl fileName);
+Q_INVOKABLE bool saveToFile(QUrl filename = QUrl());
+Q_INVOKABLE QString getFileName();
 
+//Internal methods
 int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 bool removeRow(int row, const QModelIndex &parent = QModelIndex());
@@ -92,6 +64,7 @@ private:
     int numDragHandles = 30;
     QVector<gpxCoordinate> m_coordinates;
     QVector<gpxCoordinate> edit_markers;
+    QVector<waypointMarker> waypoints;
     QUrl m_fileName;
     float pathLength;
     float totalHeightGain;
