@@ -2,7 +2,9 @@ import QtQuick 2.0
 import QtLocation 5.12
 import QtQuick.Window 2.3
 import QtPositioning 5.12
-import QtQuick.Controls 2.0
+//TODO slider style only works with 1.4 ??
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 import "storageFunctions.js" as DB
 import "mapFunctions.js" as MF
 
@@ -59,7 +61,7 @@ Item {
         property alias mapView : mapView
 
         anchors.fill: parent
-        center: QtPositioning.coordinate(51.3141, -0.5935)
+        center: QtPositioning.coordinate(50.395755, -3.514762)
         zoomLevel: 14
 
         //Pick up mouseclicks on the map
@@ -109,12 +111,46 @@ Item {
     //Zoom control implemented as a slider
     Slider {
         id: zoomSlider
-        from: 1
+        minimumValue: 1
         value: 14
-        to: 17
+        maximumValue: 20
         onValueChanged: {
             mapView.zoomLevel = zoomSlider.value
         }
+        style: SliderStyle {
+
+                groove: Rectangle {
+                    implicitWidth: 200
+                    implicitHeight: 4
+                    color: "gray"
+                    radius: 4
+                }
+                handle: Rectangle {
+                    anchors.centerIn: parent
+                    color: control.pressed ? "white" : "lightgray"
+                    border.color: "gray"
+                    border.width: 2
+                    implicitWidth: 17
+                    implicitHeight: 17
+                    radius: 8
+                }
+                //TODO get this working
+                tickmarks: Repeater {
+                    id: repeater
+                    model: control.stepSize > 0 ? 1 + (control.maximumValue - control.minimumValue) / control.stepSize : 0
+                    width: control.orientation === Qt.Vertical ? control.height : control.width
+                    height: control.orientation === Qt.Vertical ? control.width : control.height
+                       Rectangle {
+                            color: "black"
+                            width: 1 ; height: 10
+                           y: control.orientation === Qt.Vertical ? control.width : control.height
+                           //Position ticklines from styleData.handleWidth to width - styleData.handleWidth/2
+                           //position them at an half handle width increment
+                          x: styleData.handleWidth / 2 + index * ((repeater.width - styleData.handleWidth) / (repeater.count>1 ? repeater.count-1 : 1))
+                          opacity: 1
+                      }
+                }
+            }
     }
 
 }

@@ -27,6 +27,7 @@ The majority of functionality is provided in QML. Start with mainAppWindow.qml a
 - MapAppWindowFooterBar.qml is our on screen footer
 - MapAppWindowMenuBar.qml is the menuing system
 - MapAppWindowSideMar.qml is a popout side bar for configuration controls
+- MapChooserWindow.qml is a blocking window forcing user to choose map type on application entry
 
 ### Javascript
 
