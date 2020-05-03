@@ -28,6 +28,7 @@ function fileOperations(mode, title) {
     var file = gpxModel.getFileName();
 
     if(mode === 'saveas' ||(mode ==='save' && file ==='')) {
+        fileDialog.selectExisting = false;
         fileDialog.open();
         return;
     }

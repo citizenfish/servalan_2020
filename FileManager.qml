@@ -13,6 +13,9 @@ Item {
         property var mode: 'open'
         property var chainOpen: false
 
+        defaultSuffix: 'gpx'
+        nameFilters: ["GPX Files (*.gpx *.GPX)", "All Files (*)"]
+
         sidebarVisible: true
 
         onAccepted: {
