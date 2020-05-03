@@ -10,6 +10,10 @@ Window {
     width: 600
     modality: Qt.ApplicationModal
 
+    property var mapLookup: { "Openstreetmap":      {"plugin" : appMapView.osmPlugin, "image" :"openstreetmap.png"},
+                              "Zoomstack Light":    {"plugin" : appMapView.zoomStackLightPlugin, "image" :"zoomstack-light.png"},
+                              "Zoomstack Road":     {"plugin" : appMapView.zoomStackRoadPlugin, "image" :"zoomstack-road.png"},
+                              "Zoomstack Outdoor":  {"plugin" : appMapView.zoomStackOutdoorPlugin, "image" :"zoomstack-outdoor.png" }}
     RowLayout {
         x: 301
         y: 100
@@ -24,14 +28,10 @@ Window {
             Layout.leftMargin: 0
             Layout.topMargin: 0
             currentIndex: 0
-            model: ["Openstreetmap", "Mapbox"]
+            model: ["Openstreetmap", "Zoomstack Light", "Zoomstack Road", "Zoomstack Outdoor"]
             onCurrentValueChanged: {
-
                 chooserButton.text  = "Use " + currentValue;
-                if(currentValue === "Openstreetmap")
-                    mapImagePanel.source = "openstreetmap.png"
-                else
-                    mapImagePanel.source = "mapbox.png"
+                mapImagePanel.source = mapLookup[currentValue].image;
             }
         }
 
@@ -48,15 +48,7 @@ Window {
             anchors.fill: parent
             onClicked: {
 
-
-                if(mapChooseCombo.currentValue === 'Mapbox') {
-                    appMapView.mapView.plugin = appMapView.mapboxPlugin;
-                }
-
-                if(mapChooseCombo.currentValue === 'Openstreetmap'){
-                    appMapView.mapView.plugin = appMapView.osmPlugin;
-                }
-
+                appMapView.mapView.plugin = mapLookup[mapChooseCombo.currentValue].plugin;
                 mapChooserWindow.visible = false;
                 appMapView.visible = true;
             }
@@ -84,7 +76,7 @@ Window {
         y: 21
         width: 264
         height: 82
-        text: qsTr("Servalan allows you to use maps in Openstreetmap or MapBox format. You need to select the map type prior to loading a GPX file. ")
+        text: qsTr("Servalan allows you to use maps in Openstreetmap or OS Zoomstack format. You need to select the map type prior to loading a GPX file. ")
         verticalAlignment: Text.AlignTop
         horizontalAlignment: Text.AlignLeft
         wrapMode: Text.WordWrap

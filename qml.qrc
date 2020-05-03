@@ -14,7 +14,12 @@
         <file>MapChooserWindow.qml</file>
         <file>mapFunctions.js</file>
         <file>openstreetmap.png</file>
-        <file>mapbox.png</file>
+        <file>zoomstack-outdoor.png</file>
+        <file>zoomstack-road.png</file>
+        <file>zoomstack-light.png</file>
+        <file>zoomstack-road.json</file>
+        <file>zoomstack-outdoor.json</file>
+        <file>zoomstack-light.json</file>
     </qresource>
     <qresource prefix="/images"/>
 </RCC>

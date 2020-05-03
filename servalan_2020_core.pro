@@ -26,6 +26,7 @@ RESOURCES += \
     qml.qrc
 
 DISTFILES += \
+    NOTES.md \
     README.md
 
 INCLUDEPATH += /usr/local/include
