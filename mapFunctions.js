@@ -53,9 +53,22 @@ function marker_double_clicked() {
     DB.modelCommandExecute('deleteMarkerAtIndex', {"index" : itemDetails});
 }
 
-function mapClicked(x,y) {
+function mapClicked(x,y, button) {
     var coord = mapView.toCoordinate(Qt.point(x,y))
-    DB.modelCommandExecute('addMarker', {"coordinate" : coord});
+
+    //Route marker
+    if(button === Qt.LeftButton) {
+        DB.modelCommandExecute('addMarker', {"coordinate" : coord});
+        return;
+       }
+
+    //Waypoint
+    if(button === Qt.RightButton){
+        //wpModel.append({lat : coord.latitude, lon: coord.longitude, description: "Marker"});
+        DB.modelCommandExecute('addWaypoint', {"coordinate" : coord});
+        return;
+    }
+
 }
 
 function toggleEditMode(){

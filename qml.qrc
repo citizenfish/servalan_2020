@@ -20,6 +20,8 @@
         <file>zoomstack-road.json</file>
         <file>zoomstack-outdoor.json</file>
         <file>zoomstack-light.json</file>
+        <file>GPXWaypoint.qml</file>
+        <file>GPXWayPointModel.qml</file>
     </qresource>
     <qresource prefix="/images"/>
 </RCC>

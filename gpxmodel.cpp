@@ -32,6 +32,17 @@ GPXModel::GPXModel(QObject *parent): QAbstractListModel(parent)
     qDebug() <<"GDAL ALL DONE";
 }
 
+Q_INVOKABLE int GPXModel::addWayPoint(const QGeoCoordinate &coordinate, QString description) {
+
+    waypointMarker wp = {coordinate, description};
+
+    beginRemoveRows(QModelIndex(),0,rowCount());
+    waypoints.append(wp);
+    endRemoveRows();
+
+    return waypoints.count();
+}
+
 Q_INVOKABLE int GPXModel::addHeightToPath(const int index, const int limit) {
 
     int iPixel, iLine;
@@ -355,7 +366,6 @@ QHash<int, QByteArray> GPXModel::roleNames() const {
 
     roles[positionRole] = "positionRole";
     roles[itemRole]     = "itemRole";
-    roles[waypointRole] = "waypointRole";
 
     return roles;
 }

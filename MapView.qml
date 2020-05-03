@@ -67,9 +67,11 @@ Item {
         MouseArea {
             anchors.fill: parent
             enabled: mainApplicationWindow.editMode === 'On' ? true : false
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
             onClicked: {
-                MF.mapClicked(mouse.x,mouse.y)
+                MF.mapClicked(mouse.x,mouse.y, mouse.button)
             }
+
         }
 
         /************ GPX LINE COMPONENT ***********/
@@ -77,6 +79,15 @@ Item {
         GPXLine {
             id:gpxLine
         }
+
+        /************ Waypoints ********************/
+
+       GPXWaypoint{
+            id: gpxWayPoint
+        }
+
+
+
 
         /************* DRAG MARKERS COMPONENT *************/
 

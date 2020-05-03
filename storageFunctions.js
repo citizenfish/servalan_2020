@@ -61,7 +61,7 @@ function modelCommandExecute(command, parameters, mode) {
 
     case 'addMarker':
         ret_var = gpxModel.addMarker(parameters.coordinate);
-        undo_command = {"command" : "deleteMarkerAtIndex", "parameters" :{"index" : ret_var}};
+        undo_command = {"command" : "deleteMarkerAtIndex", "parameters" :{"index" : ret_var + 1 }};
         redo_command = {"command" : "addMarker",  "parameters" :{"coordinate" : parameters.coordinate}};
         break;
 
@@ -81,6 +81,19 @@ function modelCommandExecute(command, parameters, mode) {
         ret_var = gpxModel.updateMarkerLocation(parameters.coordinate, parameters.itemDetails);
         undo_command = {"command" : "updateMarkerLocation", "parameters" : {"coordinate" : parameters.oCoordinate, "itemDetails" : parameters.itemDetails}};
         redo_command = {"command" : "updateMarkerLocation", "parameters" : {"coordinate" : parameters.coordinate, "itemDetails" : parameters.itemDetails}};
+        break;
+
+    case 'addWaypoint':
+        wpModel.append({lat : parameters.coordinate.latitude, lon: parameters.coordinate.longitude, description: "Marker"});
+        undo_command = {"command" : "deleteWaypoint", "parameters" :{"index" : wpModel.count - 1}};
+        redo_command = {"command" : "addWaypoint", "parameters" : {"coordindate" : parameters.coordinate}};
+        break;
+
+    case 'deleteWaypoint':
+        var item  = wpModel.get(parameters.index);
+        wpModel.remove(parameters.index, 1);
+        undo_command = {"command" : "addWaypoint", "parameters" :{"coordinate" : QtPositioning.coordinate(item.lat, item.lon)}};
+        redo_command = {"command" : "deleteWaypoint", "parameters" : {"index" : parameters.index}};
         break;
 
     default:

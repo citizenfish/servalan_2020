@@ -30,6 +30,10 @@ ApplicationWindow {
         id: gpxModel
     }
 
+    //model for waypoints
+    GPXWayPointModel{
+        id: wpModel
+    }
 
     MainAppWindowSideBar {
         id: sideBar
