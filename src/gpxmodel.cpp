@@ -248,6 +248,10 @@ Q_INVOKABLE bool GPXModel::saveToFile(QUrl fileName){
 
 Q_INVOKABLE QString GPXModel::getFileName() {  return m_fileName.fileName();};
 
+Q_INVOKABLE QString GPXModel::getTrackName() {  return m_trackName;};
+
+Q_INVOKABLE QString GPXModel::setTrackName(QString trackname ) {  m_trackName = trackname; return m_trackName;};
+
 Q_INVOKABLE bool GPXModel::loadFromFile(const QUrl fileName) {
 
     QFile file(fileName.toLocalFile());
@@ -270,35 +274,68 @@ Q_INVOKABLE bool GPXModel::loadFromFile(const QUrl fileName) {
         while(!reader.atEnd()) {
             reader.readNext();
             if(reader.isStartElement()){
+
+                if(reader.name() == "name" && m_trackName == ""){
+                        m_trackName = reader.readElementText();
+                        qDebug() << "Set track name to " << m_trackName;
+                }
+
                 //Obvs this needs rewriting as it ignores trksegs and simply lineraly ingests points assuming a single track
-                if(reader.name() == "trkpt" || reader.name() =="rtept") {
-                    gpxCoordinate trackPoint;
+                if(reader.name() == "trkpt" || reader.name() =="rtept" || reader.name() == "wpt") {
+
+
                     QGeoCoordinate coord;
+                    float ele;
+                    QString name,cmt,desc,sym;
+                    QDateTime time;
 
                     QXmlStreamAttributes attributes=reader.attributes();
                    //make a trackpoint
                    if(attributes.hasAttribute("lat") && attributes.hasAttribute("lon")){
                         coord.setLongitude(attributes.value("lon").toFloat());
                         coord.setLatitude(attributes.value("lat").toFloat());
-                        trackPoint.latlon = coord;
 
                    }
 
-                   //set its index in the gpx file, we use this on marker sampling reduction
-                   trackPoint.index = pointCounter;
-
-                   //read through trackpoint and pick up elevation
+                   //read through trackpoint/waypoint and pick up sub-elements
                    while(!reader.isEndElement()){
                        if(reader.name()=="ele"){
-                           trackPoint.ele=reader.readElementText().toFloat();
+                           ele=reader.readElementText().toFloat();
+                       }
+                       if(reader.name()=="name"){
+                           name=reader.readElementText();
+                       }
+                       if(reader.name()=="cmt"){
+                           cmt=reader.readElementText();
+                       }
+                       if(reader.name()=="desc"){
+                           desc=reader.readElementText();
+                       }
+                       if(reader.name()=="sym"){
+                           sym=reader.readElementText();
+                       }
+                       if(reader.name()=="time"){
+                           time=QDateTime::fromString(reader.readElementText());
                        }
                        reader.readNext();
                    }
-                   //Increment the trackpoint counter and load the trackPoint array
-                   ++pointCounter;
-                   temp_load.append(trackPoint);
+
+                   if(reader.name() != "wpt") {
+                       gpxCoordinate trackPoint;
+                       //set its index in the gpx file, we use this on marker sampling reduction
+                       trackPoint = {coord,ele,time, pointCounter,0.0};
+                       //Increment the trackpoint counter and load the trackPoint array
+                       ++pointCounter;
+                       temp_load.append(trackPoint);
+                   } else {
+                       waypointMarker waypoint = {coord,name,cmt,desc,sym,ele};
+                       waypoints.append(waypoint);
+                   }
 
                }
+
+
+
             }
         }
 

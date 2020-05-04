@@ -20,7 +20,11 @@ struct gpxCoordinate {
 
 struct waypointMarker {
     QGeoCoordinate latlon;
-    QString description;
+    QString name;
+    QString cmt;
+    QString desc;
+    QString sym;
+    float ele;
 };
 
 class GPXModel : public QAbstractListModel {
@@ -46,6 +50,8 @@ Q_INVOKABLE int setNumDragHandles(int num);
 Q_INVOKABLE bool loadFromFile(const QUrl fileName);
 Q_INVOKABLE bool saveToFile(QUrl filename = QUrl());
 Q_INVOKABLE QString getFileName();
+Q_INVOKABLE QString getTrackName();
+Q_INVOKABLE QString setTrackName(QString trackname );
 Q_INVOKABLE int addWayPoint(const QGeoCoordinate &coordinate, QString description);
 
 //Internal methods
@@ -66,9 +72,12 @@ private:
     QVector<gpxCoordinate> edit_markers;
     QVector<waypointMarker> waypoints;
     QUrl m_fileName;
+    QString m_trackName = "";
+
     float pathLength;
     float totalHeightGain;
     float totalDescent;
+
 
     //gdal stuff
     GDALDataset *testDataSet;
