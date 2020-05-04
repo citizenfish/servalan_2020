@@ -31,7 +31,7 @@ Item {
 
         PluginParameter {
             name: "mapboxgl.mapping.additional_style_urls"
-            value: 'http://0.0.0.0:8080/zoomstack-outdoor.json'
+            value: 'qrc:/map-styles/zoomstack-outdoor.json'
         }
     }
 
@@ -41,7 +41,7 @@ Item {
 
         PluginParameter {
             name: "mapboxgl.mapping.additional_style_urls"
-            value: 'http://0.0.0.0:8080/zoomstack-road.json'
+            value: 'qrc:/map-styles/zoomstack-road.json'
         }
     }
 
@@ -51,7 +51,7 @@ Item {
 
         PluginParameter {
             name: "mapboxgl.mapping.additional_style_urls"
-            value: 'http://0.0.0.0:8080/zoomstack-light.json'
+            value: 'qrc:/map-styles/zoomstack-light.json'
         }
     }
 

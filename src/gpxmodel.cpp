@@ -1,4 +1,4 @@
-#include "gpxmodel.h"
+#include "../headers/gpxmodel.h"
 
 GPXModel::GPXModel(QObject *parent): QAbstractListModel(parent)
 {

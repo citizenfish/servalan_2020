@@ -1,4 +1,4 @@
-#include "gisfunctions.h"
+#include "../headers/gisfunctions.h"
 
 
 double latlondist_vincenty(float lat1, float lon1, float lat2, float lon2){
