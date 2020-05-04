@@ -10,10 +10,10 @@ Window {
     width: 600
     modality: Qt.ApplicationModal
 
-    property var mapLookup: { "Openstreetmap":      {"plugin" : appMapView.osmPlugin, "image" :"../../images/openstreetmap.png"},
-                              "Zoomstack Light":    {"plugin" : appMapView.zoomStackLightPlugin, "image" :"../../images/zoomstack-light.png"},
-                              "Zoomstack Road":     {"plugin" : appMapView.zoomStackRoadPlugin, "image" :"../../images/zoomstack-road.png"},
-                              "Zoomstack Outdoor":  {"plugin" : appMapView.zoomStackOutdoorPlugin, "image" :"../../imageszoomstack-outdoor.png" }}
+    property var mapLookup: { "Openstreetmap":      {"plugin" : appMapView.osmPlugin, "image" :"qrc:/images/openstreetmap.png"},
+                              "Zoomstack Light":    {"plugin" : appMapView.zoomStackLightPlugin, "image" :"qrc:/images/zoomstack-light.png"},
+                              "Zoomstack Road":     {"plugin" : appMapView.zoomStackRoadPlugin, "image" :"qrc:/images/zoomstack-road.png"},
+                              "Zoomstack Outdoor":  {"plugin" : appMapView.zoomStackOutdoorPlugin, "image" :"qrc:/images/zoomstack-outdoor.png" }}
     RowLayout {
         x: 301
         y: 100
@@ -64,7 +64,7 @@ Window {
 
         Image {
             id: mapImagePanel
-            source: "openstreetmap.png"
+            source: "qrc:/images/openstreetmap.png"
             width:parent.width
             height: parent.height
         }

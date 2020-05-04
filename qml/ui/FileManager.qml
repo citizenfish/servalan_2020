@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Dialogs 1.2
 import QtPositioning 5.9
-import "../../javascript/storageFunctions.js" as DB
+import "qrc:/javascript/storageFunctions.js" as DB
 
 Item {
 

@@ -4,9 +4,9 @@ import QtQuick.Window 2.3
 import QtPositioning 5.12
 //TODO slider style only works with 1.4 ??
 import QtQuick.Controls 2.14
-import "../../javascript/storageFunctions.js" as DB
-import "../../javascript/mapFunctions.js" as MF
-import "../components"
+import "qrc:/javascript/storageFunctions.js" as DB
+import "qrc:/javascript/mapFunctions.js" as MF
+import "qrc:/qml/components"
 
 Item {
     //Alias needed to expose the mapView id up a level

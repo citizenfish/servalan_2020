@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
-import "../../javascript/mapFunctions.js" as MF
+import "qrc:/javascript/mapFunctions.js" as MF
 
 ToolBar {
 

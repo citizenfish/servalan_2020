@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.3
 import QtQuick.Dialogs 1.2
-import "../../javascript/storageFunctions.js" as DB
+import "qrc:/javascript/storageFunctions.js" as DB
 
 MenuBar {
     Menu {
