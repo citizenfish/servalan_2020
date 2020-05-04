@@ -1,8 +1,8 @@
 import QtQuick 2.0
 import QtPositioning 5.8
 import QtLocation 5.9
-import "storageFunctions.js" as DB
-import "mapFunctions.js" as MF
+import "../../javascript/storageFunctions.js" as DB
+import "../../javascript/mapFunctions.js" as MF
 
 MapCircle{
 

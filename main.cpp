@@ -2,7 +2,7 @@
 
 #include <QApplication>
 #include <QQmlApplicationEngine>
-#include "gpxmodel.h"
+#include "headers/gpxmodel.h"
 
 using namespace std;
 int main(int argc, char *argv[])
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     qmlRegisterType<GPXModel>("GPXModel", 1, 0, "GPXModel");
 
-    engine.load(QUrl(QStringLiteral("qrc:/mainAppWindow.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/ui/mainAppWindow.qml")));
 
     return app.exec();
 }

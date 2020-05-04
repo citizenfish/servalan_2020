@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtLocation 5.14
-import "storageFunctions.js" as DB
-import "mapFunctions.js" as MF
+import "../../javascript/storageFunctions.js" as DB
+import "../../javascript/mapFunctions.js" as MF
 
 MapPolyline {
     line.width: 8

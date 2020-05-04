@@ -8,14 +8,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-    gisfunctions.cpp \
-    gpxmodel.cpp \
     main.cpp \
-    mainappwindow.cpp
+    mainappwindow.cpp \
+    src/gisfunctions.cpp \
+    src/gpxmodel.cpp
 
 HEADERS += \
-    gisfunctions.h \
-    gpxmodel.h \
+    headers/gisfunctions.h \
+    headers/gpxmodel.h \
     mainappwindow.h
 
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -27,7 +27,9 @@ RESOURCES += \
 
 DISTFILES += \
     NOTES.md \
-    README.md
+    README.md \
+    javascript/mapFunctions.js \
+    javascript/storageFunctions.js
 
 INCLUDEPATH += /usr/local/include
 LIBS += -L/usr/local/lib/ -lgdal

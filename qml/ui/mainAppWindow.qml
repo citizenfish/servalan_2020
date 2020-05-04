@@ -3,8 +3,11 @@ import QtQuick.Window 2.3
 import QtQuick.Controls 2.5
 import QtQuick.Dialogs 1.2
 
-import "storageFunctions.js" as DB
+
+import "../../javascript/storageFunctions.js" as DB
 import GPXModel 1.0
+import "../components"
+import "../map"
 
 
 ApplicationWindow {
