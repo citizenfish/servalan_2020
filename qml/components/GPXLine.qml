@@ -18,18 +18,20 @@ MapPolyline {
         onEntered: {
             //when we enter the line we show the marker handles to allow editing
             //this is currently triggered with a click
-            var index = MF.get_index(gpxLine,mouseX,mouseY);
-            gpxModel.setEditLocation(index);
 
+            //we have to convert the click into a coordinate on map, not in the line space
+            var mapCoord = gpxLine.mapToItem(mapView,mouseX,mouseY);
+            var coord = mapView.toCoordinate(Qt.point(mapCoord.x,mapCoord.y));
+            gpxModel.setEditLocationFromCoordinate(coord);
         }
 
 
         onPressAndHold: {
-            var index = MF.get_index(gpxLine,mouseX,mouseY);
+
             //we have to convert the click into a coordinate on map, not in the line space
             var mapCoord = gpxLine.mapToItem(mapView,mouseX,mouseY);
-            var coord = mapView.toCoordinate(Qt.point(mapCoord.x,mapCoord.y))
-            DB.modelCommandExecute('addMarkerAtIndex', {"coordinate" : coord, "index" : index});
+            var coord = mapView.toCoordinate(Qt.point(mapCoord.x,mapCoord.y));
+            DB.modelCommandExecute('addMarkerOnLine', {"coordinate" : coord, "append" : false});
         }
 
 

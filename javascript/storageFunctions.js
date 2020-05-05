@@ -1,3 +1,4 @@
+
 function fileOperations(mode, title) {
 
     fileDialog.title = title || (mode + "GPX file");
@@ -60,22 +61,17 @@ function modelCommandExecute(command, parameters, mode) {
     switch (command) {
 
     case 'addMarker':
-        ret_var = gpxModel.addMarker(parameters.coordinate);
-        undo_command = {"command" : "deleteMarkerAtIndex", "parameters" :{"index" : ret_var + 1 }};
+    case 'addMarkerOnLine':
+        ret_var = gpxModel.addMarker(parameters.coordinate, parameters.append === undefined ?  true : parameters.append);
+        undo_command = {"command" : "deleteMarkerAtIndex", "parameters" :{"index" : ret_var }};
         redo_command = {"command" : "addMarker",  "parameters" :{"coordinate" : parameters.coordinate}};
         break;
 
     case 'deleteMarkerAtIndex':
         ret_var = gpxModel.deleteMarkerAtIndex(parameters.index);
-        undo_command = {"command" : "addMarkerAtIndex", "parameters" :{"index" : parameters.index - 1, "coordinate" : ret_var}};
+        undo_command = {"command" : "addMarker", "parameters" :{"append" : false, "coordinate" : ret_var}};
         redo_command = {"command" : "deleteMarkerAtIndex", "parameters" : {"index" : parameters.index}};
         break;
-
-    case 'addMarkerAtIndex':
-         ret_var = gpxModel.addMarkerAtIndex(parameters.coordinate, parameters.index);
-         undo_command = {"command" : "deleteMarkerAtIndex", "parameters" : {"index" : ret_var.index}};
-         redo_command = {"command":  "addMarkerAtIndex", "parameters" : {"coordinate" : parameters.coordinate, "index" : parameters.index}};
-         break;
 
     case 'updateMarkerLocation':
         ret_var = gpxModel.updateMarkerLocation(parameters.coordinate, parameters.itemDetails);
@@ -86,13 +82,13 @@ function modelCommandExecute(command, parameters, mode) {
     case 'addWaypoint':
         wpModel.append({lat : parameters.coordinate.latitude, lon: parameters.coordinate.longitude, description: "Marker"});
         undo_command = {"command" : "deleteWaypoint", "parameters" :{"index" : wpModel.count - 1}};
-        redo_command = {"command" : "addWaypoint", "parameters" : {"coordindate" : parameters.coordinate}};
+        redo_command = {"command" : "addWaypoint", "parameters" : {"coordinate" : parameters.coordinate}};
         break;
 
     case 'deleteWaypoint':
         var item  = wpModel.get(parameters.index);
         wpModel.remove(parameters.index, 1);
-        undo_command = {"command" : "addWaypoint", "parameters" :{"coordinate" : QtPositioning.coordinate(item.lat, item.lon)}};
+        undo_command = {"command" : "addWaypoint", "parameters" :{"coordinate" : {"latitude" :item.lat, "longitude" : item.lon}}};
         redo_command = {"command" : "deleteWaypoint", "parameters" : {"index" : parameters.index}};
         break;
 
@@ -108,6 +104,7 @@ function modelCommandExecute(command, parameters, mode) {
 
         commandStack.push({"undo_command" : undo_command, "redo_command" : redo_command});
     }
+
 
     return ret_var;
 }
@@ -130,7 +127,7 @@ function modelCommandRedo(){
 function dumpStack(text) {
     console.log(text + " STACK POINTER " + commandStackPointer);
     for(var i = 0; i < commandStack.length; i++){
-        console.log("Command " + i +" stack " + JSON.stringify(commandStack[i]));
+        console.log("Command " + i +" stack " + JSON.stringify(commandStack[i]),1);
     }
 }
 
