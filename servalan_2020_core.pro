@@ -9,14 +9,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainappwindow.cpp \
     src/gisfunctions.cpp \
     src/gpxmodel.cpp
 
 HEADERS += \
     headers/gisfunctions.h \
-    headers/gpxmodel.h \
-    mainappwindow.h
+    headers/gpxmodel.h
 
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

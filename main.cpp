@@ -1,4 +1,4 @@
-#include "mainappwindow.h"
+//#include "mainappwindow.h"
 
 #include <QApplication>
 #include <QQmlApplicationEngine>
