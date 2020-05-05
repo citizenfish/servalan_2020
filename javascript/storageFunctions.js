@@ -50,7 +50,7 @@ function fileOperations(mode, title) {
 
 function modelCommandExecute(command, parameters, mode) {
 
-    //mark our gpx as changed so we know to propmpt for save
+    //mark our gpx as changed so we know to prompt for save
     mainApplicationWindow.gpxHasChanged = true;
 
     var ret_var,

@@ -38,6 +38,7 @@ ApplicationWindow {
         id: wpModel
     }
 
+
     MainAppWindowSideBar {
         id: sideBar
     }
