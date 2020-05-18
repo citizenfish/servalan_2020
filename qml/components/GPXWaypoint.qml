@@ -11,12 +11,32 @@ MapItemView{
     model: wpModel
     delegate: MapQuickItem {
             sourceItem: Rectangle {
-                width: 14
-                height: 14
+                width: 20
+                height: 20
                 color: "#2ad3f9"
-                radius: 7
+                //radius: 15
+                opacity: 0.8
+
+                MouseArea {
+                    drag.target: parent
+                    anchors.fill : parent
+                    property bool dragActive: drag.active;
+
+                    onDragActiveChanged: {
+                        parent.color = 'red';
+                        parent.opacity = 0.3;
+                        if(!drag.active){
+                            parent.color = "#2ad3f9"
+                        }
+                    }
+
+
+                }
+
             }
             anchorPoint: Qt.point(sourceItem.width/2, sourceItem.height/2)
             coordinate : QtPositioning.coordinate(lat, lon)
+
+
         }
 }

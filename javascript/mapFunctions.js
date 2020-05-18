@@ -20,6 +20,7 @@ function marker_clicked(index, mouseButton) {
         selectedEndMarker = index;
     }
 
+    gpxDragMarkerView.update();
 }
 
 function marker_double_clicked() {
