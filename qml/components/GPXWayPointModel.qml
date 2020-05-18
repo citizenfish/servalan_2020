@@ -4,6 +4,15 @@ import QtQuick 2.0
 ListModel{
 
     onRowsInserted: {
-        console.log('Stuff happend in the model')
+
+        console.log('A waypoint got added ');
+    }
+
+    onRowsRemoved:  {
+        console.log('A waypoint got removed');
+    }
+
+    onRowsMoved: {
+        console.log('A waypoint got moved')
     }
 }

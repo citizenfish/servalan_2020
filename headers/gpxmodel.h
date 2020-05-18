@@ -61,5 +61,6 @@ private:
     float totalHeightGain;
     float totalDescent;
 
+
 };
 #endif // GPXModel_H

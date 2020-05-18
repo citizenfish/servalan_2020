@@ -15,7 +15,9 @@ Item {
     property alias zoomStackOutdoorPlugin: zoomStackOutdoorPlugin
     property alias zoomStackRoadPlugin: zoomStackRoadPlugin
     property alias zoomStackLightPlugin: zoomStackLightPlugin
-
+    property alias selectedStartMarker: gpxDragMarkerView.selectedStartMarker
+    property alias selectedEndMarker: gpxDragMarkerView.selectedEndMarker
+    property alias gpxLine :gpxLine
     anchors.fill: parent
     visible: true
 
@@ -83,7 +85,7 @@ Item {
 
         /************ Waypoints ********************/
 
-       GPXWaypoint{
+        GPXWaypoint{
             id: gpxWayPoint
         }
 
@@ -95,6 +97,9 @@ Item {
         MapItemView {
                 //Put AFTER line to render on top and get drag events
                 model: gpxModel
+                id: gpxDragMarkerView
+                property int selectedStartMarker : -1;
+                property int selectedEndMarker : -1;
                 delegate: GPXDragMarker {
 
                 }

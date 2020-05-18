@@ -4,6 +4,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 
+
+
 DEFINES += QT_DEPRECATED_WARNINGS
 
 
@@ -29,6 +31,7 @@ DISTFILES += \
     javascript/mapFunctions.js \
     javascript/storageFunctions.js
 
-INCLUDEPATH += /usr/local/include
-LIBS += -L/usr/local/lib/ -lgdal
-PRE_TARGETDEPS += /usr/local/lib/libgdal.a
+INCLUDEPATH += /opt/local/include
+LIBS += -L/opt/local/lib/ -lgdal
+PRE_TARGETDEPS += /opt/local/lib/libgdal.a
+

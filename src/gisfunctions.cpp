@@ -54,7 +54,7 @@ QVector<trackpoint> addHeight( QVector<trackpoint> trackpointsVectors, const int
 
     const char *pzFileName = nullptr;
     //TODO find a way to do this in qrc file, think it may be impossible
-    pzFileName = "/Users/daveb/mapping-data/SRTM/all_uk_data.tif";
+    pzFileName = "/Users/daveb/dev/servalan_2020/srtm_data/all_uk_data.tif";
     testDataSet =  (GDALDataset *) GDALOpen(pzFileName,GA_ReadOnly);
     heightBand = testDataSet->GetRasterBand(1);
     //Transformers from coordinate to pixel grid

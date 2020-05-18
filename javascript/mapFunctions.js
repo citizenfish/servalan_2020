@@ -4,6 +4,24 @@ function marker_dragged() {
 
 }
 
+function marker_clicked(index, mouseButton) {
+
+    if(mouseButton === Qt.RightButton){
+        //Will delete here
+        console.log("right button");
+        return;
+    }
+
+    //Left button below here
+
+    if(selectedStartMarker === -1){
+        selectedStartMarker = index;
+    } else {
+        selectedEndMarker = index;
+    }
+
+}
+
 function marker_double_clicked() {
     DB.modelCommandExecute('deleteMarkerAtIndex', {"index" : itemDetails});
 }
@@ -48,5 +66,6 @@ function update_location_status(){
 function update_edit_status(text) {
     footerBar.editStatusText = "Edit Mode: " + text;
 }
+
 
 
