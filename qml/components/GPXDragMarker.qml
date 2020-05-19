@@ -31,7 +31,6 @@ MapCircle{
         }
 
         onClicked: {
-            console.log("SELECTED " + itemDetails + " " + mouse.button);
             MF.marker_clicked(itemDetails, mouse.button);
 
         }

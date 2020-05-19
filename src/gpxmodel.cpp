@@ -58,6 +58,13 @@ Q_INVOKABLE int GPXModel::setNumDragHandles(int num){
         return numDragHandles;
 }
 
+
+
+Q_INVOKABLE void GPXModel::forceRedraw(const int index1){
+
+    setEditLocation(index1);
+}
+
 /*
  * Used when we click on a line to show the nearest drag handles to the line
  *

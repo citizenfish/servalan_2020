@@ -14,13 +14,19 @@ function marker_clicked(index, mouseButton) {
 
     //Left button below here
 
+
     if(selectedStartMarker === -1){
         selectedStartMarker = index;
     } else {
-        selectedEndMarker = index;
+        if(index < selectedStartMarker) {
+            selectedEndMarker = selectedStartMarker
+            selectedStartMarker = index
+        } else {
+                selectedEndMarker = index;
+        }
     }
 
-    gpxDragMarkerView.update();
+    gpxModel.forceRedraw(index);
 }
 
 function marker_double_clicked() {

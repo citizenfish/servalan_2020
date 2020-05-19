@@ -36,6 +36,7 @@ Q_INVOKABLE QString getTrackName();
 Q_INVOKABLE QString setTrackName(QString trackname );
 Q_INVOKABLE int setEditLocationFromCoordinate(const QGeoCoordinate coordinate);
 
+Q_INVOKABLE void forceRedraw(const int index1);
 
 //Internal methods
 int rowCount(const QModelIndex &parent = QModelIndex()) const override;
