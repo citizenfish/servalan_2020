@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 import "qrc:/javascript/mapFunctions.js" as MF
+import "qrc:/javascript/storageFunctions.js" as DB
 
 ToolBar {
 
@@ -26,11 +27,13 @@ ToolBar {
         }
 
         Button{
-            text: qsTr("Add Height")
+            text: qsTr("DELETE MARKERS")
             onClicked: {
 
-                var changed = gpxModel.addHeightToPath(0);
-                console.log("Added " + changed + " height points");
+                //var del =gpxModel.deleteMarkerRange(appMapView.selectedStartMarker, appMapView.selectedEndMarker);
+
+                var del = DB.modelCommandExecute('deleteMarkerRange', {"start" : appMapView.selectedStartMarker, "end" : appMapView.selectedEndMarker});
+                console.log("Command output "+ del);
             }
         }
     }

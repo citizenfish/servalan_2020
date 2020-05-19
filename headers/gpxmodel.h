@@ -35,8 +35,9 @@ Q_INVOKABLE QString getFileName();
 Q_INVOKABLE QString getTrackName();
 Q_INVOKABLE QString setTrackName(QString trackname );
 Q_INVOKABLE int setEditLocationFromCoordinate(const QGeoCoordinate coordinate);
-
-Q_INVOKABLE void forceRedraw(const int index1);
+Q_INVOKABLE void forceRedraw(const int index1, int range = -1);
+Q_INVOKABLE int deleteMarkerRange(const int index1, const int index2);
+Q_INVOKABLE int insertMarkerRangeUndo(const int index1, const int count, const int undo_pointer);
 
 //Internal methods
 int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -57,6 +58,8 @@ private:
     QVector<waypoint> m_waypoints;
     QUrl m_fileName;
     QString m_trackName = "";
+
+    QVector<trackpoint> undo_trackpoints;
 
     float pathLength;
     float totalHeightGain;

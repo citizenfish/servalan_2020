@@ -12,8 +12,8 @@ function marker_clicked(index, mouseButton) {
         return;
     }
 
-    //Left button below here
-
+    // Left button below here
+    // Here we are selecting map markers on the line to facilitate segment save, segment delete and segment insert
 
     if(selectedStartMarker === -1){
         selectedStartMarker = index;
@@ -26,7 +26,7 @@ function marker_clicked(index, mouseButton) {
         }
     }
 
-    gpxModel.forceRedraw(index);
+    gpxModel.forceRedraw(selectedStartMarker, selectedEndMarker);
 }
 
 function marker_double_clicked() {
@@ -35,6 +35,17 @@ function marker_double_clicked() {
 
 function mapClicked(x,y, button) {
     var coord = mapView.toCoordinate(Qt.point(x,y))
+
+    //Reset any marker selections
+   if(selectedStartMarker > -1){
+        var s1 = selectedStartMarker;
+        var s2 = selectedEndMarker;
+
+        selectedEndMarker = -1;
+        selectedStartMarker = -1;
+        gpxModel.forceRedraw(s1, s2);
+    return;
+   }
 
     //Route marker
     if(button === Qt.LeftButton) {
@@ -49,6 +60,11 @@ function mapClicked(x,y, button) {
         return;
     }
 
+}
+
+function redraw_mapmarkers(s1,s2) {
+    var range = s2 > -1 ? s2 - s1 - 1: -1;
+    gpxModel.forceRedraw(s1, range);
 }
 
 function toggleEditMode(){

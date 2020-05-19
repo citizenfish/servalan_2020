@@ -73,6 +73,24 @@ function modelCommandExecute(command, parameters, mode) {
         redo_command = {"command" : "deleteMarkerAtIndex", "parameters" : {"index" : parameters.index}};
         break;
 
+    case 'deleteMarkerRange':
+        var s1 = parameters.start, s2 = parameters.end;
+
+        appMapView.selectedStartMarker = -1;
+        appMapView.selectedEndMarker = -1;
+
+        ret_var = gpxModel.deleteMarkerRange(s1,s2);
+        undo_command = {"command" : "undoMarkerDeleteRange", "parameters" : {"undo_index" : ret_var, "count" : s2 - s1 + 1, "tp_index" : s1}};
+        redo_command = {"command" : "deleteMarkerRange",    "parameters" : {"start" : parameters.start, "end" : parameters.end}};
+        break;
+
+    case 'undoMarkerDeleteRange':
+        console.log(JSON.stringify(parameters));
+        ret_var = gpxModel.insertMarkerRangeUndo(parameters.tp_index,parameters.count, parameters.undo_index);
+        undo_command = {"command" : "deleteMarkerRange",    "parameters" : {"start" : parameters.tp_index, "end" : parameters.tp_index + parameters.count}};
+        redo_command = {"command" : "undoMarkerDeleteRange", "parameters" : {"undo_index" : ret_var, "count" : parameters.count, "tp_index" : parameters.tp_index}};
+        break;
+
     case 'updateMarkerLocation':
         ret_var = gpxModel.updateMarkerLocation(parameters.coordinate, parameters.itemDetails);
         undo_command = {"command" : "updateMarkerLocation", "parameters" : {"coordinate" : parameters.oCoordinate, "itemDetails" : parameters.itemDetails}};
@@ -91,6 +109,7 @@ function modelCommandExecute(command, parameters, mode) {
         undo_command = {"command" : "addWaypoint", "parameters" :{"coordinate" : {"latitude" :item.lat, "longitude" : item.lon}}};
         redo_command = {"command" : "deleteWaypoint", "parameters" : {"index" : parameters.index}};
         break;
+
 
     default:
         console.log("NO CLUE ABOUT "+command);

@@ -45,6 +45,35 @@ Q_INVOKABLE QGeoCoordinate GPXModel::deleteMarkerAtIndex(int index){
     return ret_var;
 }
 
+Q_INVOKABLE int GPXModel::deleteMarkerRange(const int index1, const int index2){
+
+    int undoIndex = undo_trackpoints.count();
+    beginRemoveRows(QModelIndex(),index1, index2);
+    undo_trackpoints.append(m_trackpoints.mid(index1, index2 - index1 + 1));
+    m_trackpoints.remove(index1, index2 - index1 + 1);
+    endRemoveRows();
+
+    setEditLocation(index1);
+
+    return undoIndex;
+}
+
+Q_INVOKABLE int GPXModel::insertMarkerRangeUndo(const int index, const int count, int undo_pointer) {
+
+    if(index < 0 || undo_pointer + count > undo_trackpoints.count() -1 ){
+        qDebug() << "Index out of range " << undo_pointer << " : " << count;
+    }
+
+    beginInsertRows(QModelIndex(), index, index + count);
+        for(int i = index; i < index + count; i++){
+            m_trackpoints.insert(i,undo_trackpoints[undo_pointer++]);
+        }
+    endInsertRows();
+
+    setEditLocation(index);
+    return index;
+}
+
 Q_INVOKABLE void GPXModel::clearMarkers( ){
             beginRemoveRows(QModelIndex(),0,rowCount());
             edit_markers.clear();
@@ -58,11 +87,14 @@ Q_INVOKABLE int GPXModel::setNumDragHandles(int num){
         return numDragHandles;
 }
 
+/*
+ * Forces a redraw from the current index. I use this for repainting markers after selecting a line segment
+ *
+ */
 
+Q_INVOKABLE void GPXModel::forceRedraw(const int index1, const int range){
 
-Q_INVOKABLE void GPXModel::forceRedraw(const int index1){
-
-    setEditLocation(index1);
+    setEditLocation(index1, range);
 }
 
 /*

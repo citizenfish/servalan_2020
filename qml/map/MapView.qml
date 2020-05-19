@@ -17,6 +17,7 @@ Item {
     property alias zoomStackLightPlugin: zoomStackLightPlugin
     property alias selectedStartMarker: gpxDragMarkerView.selectedStartMarker
     property alias selectedEndMarker: gpxDragMarkerView.selectedEndMarker
+
     property alias gpxLine :gpxLine
     anchors.fill: parent
     visible: true

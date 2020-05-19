@@ -19,7 +19,7 @@ MapCircle{
 
     Drag.onDragFinished: MF.marker_dragged();
     MouseArea{
-        enabled: mainApplicationWindow.editMode == 'On' ? true : false
+        enabled: mainApplicationWindow.editMode === 'On' ? true : false
         anchors.fill: parent
         drag.target: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
