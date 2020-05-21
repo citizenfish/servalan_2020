@@ -55,7 +55,8 @@ function modelCommandExecute(command, parameters, mode) {
 
     var ret_var,
         undo_command = {},
-        redo_command = {};
+        redo_command = {},
+        item;
 
     mode = mode === undefined ? 'do' : mode;
     switch (command) {
@@ -104,12 +105,27 @@ function modelCommandExecute(command, parameters, mode) {
         break;
 
     case 'deleteWaypoint':
-        var item  = wpModel.get(parameters.index);
+        item  = wpModel.get(parameters.index);
         wpModel.remove(parameters.index, 1);
         undo_command = {"command" : "addWaypoint", "parameters" :{"coordinate" : {"latitude" :item.lat, "longitude" : item.lon}}};
         redo_command = {"command" : "deleteWaypoint", "parameters" : {"index" : parameters.index}};
         break;
 
+    case 'updateWayPointLocation':
+        item = wpModel.get(parameters.index);
+        if(parameters.mode === "move"){
+            //wpModel.set(parameters.index,{"coordinate": parameters.new_coordinate})
+            //item.coordinate = parameters.new_coordinate;
+             console.log(JSON.stringify(item));
+            console.log("LAT " + parameters.new_coordinate.latitude);
+            wpModel.set(parameters.index, {"lat" : parameters.new_coordinate.latitude, "lon" : parameters.new_coordinate.longitude});
+            console.log(JSON.stringify(item));
+        }
+        undo_command = {"command" : "updateWayPointLocation",  "parameters" : {"new_coordinate" : parameters.old_coordinate, "index" : parameters.index, "mode" : "move"}};
+        redo_command = {"command" : "updateWayPointLocation",  "parameters" : {"new_coordinate" : parameters.new_coordinate, "index" : parameters.index, "mode" : "move"}};
+
+
+        break;
 
     default:
         console.log("NO CLUE ABOUT "+command);

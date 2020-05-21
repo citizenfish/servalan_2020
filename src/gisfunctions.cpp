@@ -12,25 +12,49 @@ int indexCoordinate(QVector<trackpoint> &trackpoints, const QGeoCoordinate coord
           x2y2x,
           x2y2y;
 
+    double A,B,C,D,dot,len_sq,param,xx,yy,d_x,d_y;
+
     for(int i = 0; i < trackpoints.count() - 1; i++){
-        //Distance from line algorithm
+        //Distance from line algorithm https://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment
         x1y1x = trackpoints[i].latlon.longitude();
         x1y1y = trackpoints[i].latlon.latitude();
         x2y2x = trackpoints[i+1].latlon.longitude();
-        x2y2y = trackpoints[i+1].latlon.longitude();
-        dx = abs((((x2y2y - x1y1y) * x0) -((x2y2x - x1y1x) *y0) + (x2y2x * x1y1y) - (x2y2y * x1y1x)) ) /
-             sqrt(((x2y2y -x1y1y)*(x2y2y -x1y1y)) +((x2y2x -x1y1x) *(x2y2x -x1y1x)) );
+        x2y2y = trackpoints[i+1].latlon.latitude();
+
+        A = x0 - x1y1x;
+        B = y0 - x1y1y;
+        C = x2y2x - x1y1x;
+        D = x2y2y - x1y1y;
+
+        dot = A * C + B * D;
+        len_sq = C * C + D * D;
+        param = dot /len_sq;
+
+        if(param < 0  || (x1y1x == x2y2x && x1y1y == x2y2y)){
+            xx = x1y1x;
+            yy = x1y1y;
+        } else if ( param > 1 ){
+            xx = x2y2x;
+            yy = x2y2y;
+        } else {
+            xx = x1y1x +param * C;
+            yy = x1y1y + param * D;
+        }
+
+        d_x = x0 - xx;
+        d_y = y0 - yy;
+        dx = sqrt(d_x * d_x + d_y * d_y);
 
         if(dx < distance){
             distance = dx;
-            index = i +1 ;
+            index = i;
         }
 
     }
 
    if(insert) {
         trackpoint item ={coordinate,0, QDateTime::currentDateTime()};
-        trackpoints.insert(index,1,item);
+        trackpoints.insert(index + 1,1,item);
    }
    return index;
 

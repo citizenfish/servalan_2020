@@ -4,6 +4,11 @@ function marker_dragged() {
 
 }
 
+function waypoint_dragged(index, oCoordinate) {
+    var coord = mapView.toCoordinate(Qt.point(x,y));
+    DB.modelCommandExecute('updateWayPointLocation', {"old_coordinate" : oCoordinate, "index" : index, "mode" : "log_for_undo", "new_coordinate" : coord});
+}
+
 function marker_clicked(index, mouseButton) {
 
     if(mouseButton === Qt.RightButton){
