@@ -32,6 +32,7 @@ Q_INVOKABLE int GPXModel::addMarker(const QGeoCoordinate coordinate, bool append
 
 Q_INVOKABLE QGeoCoordinate GPXModel::deleteMarkerAtIndex(int index){
 
+
     if(index < 0 || index >= m_trackpoints.count()) {
         qDebug() <<"Index out of range so do nothing " << index;
         return QGeoCoordinate();
@@ -164,8 +165,6 @@ Q_INVOKABLE void GPXModel::setEditLocation(const int pathIndex, int range) {
 
 Q_INVOKABLE QGeoCoordinate GPXModel::updateMarkerLocation(const QGeoCoordinate &coordinate, int index) {
 
-    //location updates happen from drag handles and we may be somewhere along the line
-    index  += edit_marker_offset;
 
     m_trackpoints[index].latlon = coordinate;
     m_trackpoints = addHeight(m_trackpoints,index,1); //need to update the height value as well

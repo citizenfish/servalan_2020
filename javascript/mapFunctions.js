@@ -1,11 +1,14 @@
 function marker_dragged() {
+
     var coord = mapView.toCoordinate(Qt.point(x,y));
+    itemDetails += gpxModel.get_edit_marker_offset();
     DB.modelCommandExecute('updateMarkerLocation', {"coordinate" : coord, "itemDetails" : itemDetails, "oCoordinate" : mDetails});
 
 }
 
 function waypoint_dragged(index, oCoordinate) {
     var coord = mapView.toCoordinate(Qt.point(x,y));
+
     DB.modelCommandExecute('updateWayPointLocation', {"old_coordinate" : oCoordinate, "index" : index, "mode" : "log_for_undo", "new_coordinate" : coord});
 }
 
@@ -36,6 +39,8 @@ function marker_clicked(index, mouseButton) {
 }
 
 function marker_double_clicked() {
+
+    itemDetails += gpxModel.get_edit_marker_offset();
     DB.modelCommandExecute('deleteMarkerAtIndex', {"index" : itemDetails});
 }
 
@@ -90,7 +95,7 @@ function redraw_mapmarkers(s1,s2) {
 
 function toggleEditMode(){
     if(mainApplicationWindow.editMode === 'Off'){
-         //gpxModel.setEditLocation(gpxModel.rowCount());
+         //gpxModel.forceRedraw(Math.round(gpxModel.rowCount()/2), 100);
          mainApplicationWindow.editMode = 'On';
     }
     else{
