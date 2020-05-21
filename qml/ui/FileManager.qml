@@ -9,6 +9,19 @@ Item {
     property var fileOperations: DB.fileOperations
 
     FileDialog {
+        id:backDropFileLoader
+
+        defaultSuffix: 'gpx'
+        nameFilters: ["GPX Files (*.gpx *.GPX)", "All Files (*)"]
+
+        onAccepted: {
+            backdropGPXModel.clearMarkers();
+            backdropGPXModel.loadFromFile(backDropFileLoader.fileUrl);
+            appMapView.mapView.fitViewportToVisibleMapItems();
+        }
+    }
+
+    FileDialog {
         id:fileDialog
         property var mode: 'open'
         property var chainOpen: false

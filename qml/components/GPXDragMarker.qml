@@ -30,14 +30,15 @@ MapCircle{
             mDetails = QtPositioning.coordinate(gpxDragMarker.center.latitude, gpxDragMarker.center.longitude);
         }
 
-        onClicked: {
-            MF.marker_clicked(itemDetails, mouse.button);
-
-        }
 
         onDoubleClicked: MF.marker_double_clicked();
 
+        onClicked: {
+            MF.marker_clicked(itemDetails, mouse.button);
+        }
+
         onDragActiveChanged: {
+
             if(!drag.active){
                 MF.marker_dragged();
             }
@@ -46,15 +47,16 @@ MapCircle{
 
 
     Component.onCompleted: {
-        if(itemDetails === selectedStartMarker) {
+        var position = itemDetails + gpxModel.get_edit_marker_offset()
+        if(position  === selectedStartMarker) {
             color = 'green';
         }
 
-        if(itemDetails === selectedEndMarker) {
+        if(position === selectedEndMarker) {
             color = 'red'
         }
 
-        if(itemDetails < selectedEndMarker && itemDetails > selectedStartMarker){
+        if(position < selectedEndMarker && position > selectedStartMarker){
             color = 'blue';
         }
     }

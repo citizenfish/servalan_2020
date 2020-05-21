@@ -38,7 +38,9 @@ Q_INVOKABLE int setEditLocationFromCoordinate(const QGeoCoordinate coordinate);
 Q_INVOKABLE void forceRedraw(const int index1, int range = -1);
 Q_INVOKABLE int deleteMarkerRange(const int index1, const int index2);
 Q_INVOKABLE int insertMarkerRangeUndo(const int index1, const int count, const int undo_pointer);
-
+Q_INVOKABLE int get_edit_marker_offset() {
+    return edit_marker_offset;
+}
 //Internal methods
 int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -52,7 +54,8 @@ signals:
     void fileLoaded();
 
 private:
-    int numDragHandles = 30;
+    int numDragHandles = 100;
+    int edit_marker_offset = 0;
     QVector<trackpoint> m_trackpoints;
     QVector<trackpoint> edit_markers;
     QVector<waypoint> m_waypoints;

@@ -132,6 +132,8 @@ Q_INVOKABLE void GPXModel::setEditLocation(const int pathIndex, int range) {
     int lower_index = std::max(0, pathIndex - (int)round(range/2));
     int add_range = std::min(range, pathCount - lower_index);
 
+    edit_marker_offset = lower_index;
+
     //here we clear and refill the markers array
     beginRemoveRows(QModelIndex(),0,rowCount());
     edit_markers.clear();
@@ -162,6 +164,9 @@ Q_INVOKABLE void GPXModel::setEditLocation(const int pathIndex, int range) {
 
 Q_INVOKABLE QGeoCoordinate GPXModel::updateMarkerLocation(const QGeoCoordinate &coordinate, int index) {
 
+    //location updates happen from drag handles and we may be somewhere along the line
+    index  += edit_marker_offset;
+
     m_trackpoints[index].latlon = coordinate;
     m_trackpoints = addHeight(m_trackpoints,index,1); //need to update the height value as well
     setEditLocation(index);
@@ -189,14 +194,16 @@ Q_INVOKABLE bool GPXModel::saveToFile(QUrl fileName){
 
             //Now bang out our track
             writer.writeStartElement("trk");
+            writer.writeTextElement("name", m_trackName);
             writer.writeStartElement("trkseg");
+
 
             foreach(const trackpoint &trkpoint, m_trackpoints) {
                 writer.writeStartElement("trkpt");
                 writer.writeAttribute("lat", QString::number(trkpoint.latlon.latitude()));
                 writer.writeAttribute("lon", QString::number(trkpoint.latlon.longitude()));
                 if(trkpoint.ele >= 0) {
-                    writer.writeAttribute("ele", QString::number(trkpoint.ele));
+                    writer.writeTextElement("ele", QString::number(trkpoint.ele));
                 }
                 writer.writeEndElement();
             }
@@ -339,9 +346,9 @@ QVariant GPXModel::data(const QModelIndex &index, int role) const {
 
 /*
  * positionRole is used for displaying markers
- * itemRole is used for dispalying the index value of a marker so we can find its corresponding line coordinate
- * grapRole is for graphing but I may rewrite it ;-)
+ * itemRole is used for displaying the index value of a marker so we can find its corresponding line coordinate
  */
+
 QHash<int, QByteArray> GPXModel::roleNames() const {
     QHash<int, QByteArray> roles;
 

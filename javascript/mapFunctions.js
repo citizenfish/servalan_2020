@@ -19,6 +19,7 @@ function marker_clicked(index, mouseButton) {
 
     // Left button below here
     // Here we are selecting map markers on the line to facilitate segment save, segment delete and segment insert
+    index += gpxModel.get_edit_marker_offset();
 
     if(selectedStartMarker === -1){
         selectedStartMarker = index;
@@ -65,6 +66,21 @@ function mapClicked(x,y, button) {
         return;
     }
 
+}
+
+function mapDoubleClicked(x,y,button){
+    var coord = mapView.toCoordinate(Qt.point(x,y))
+    mapView.center = coord
+    mapView.zoomLevel++
+}
+
+
+function zoom(mode){
+    if(mode === 'in') {
+        appMapView.mapView.zoomLevel++
+    } else {
+        appMapView.mapView.zoomLevel--
+    }
 }
 
 function redraw_mapmarkers(s1,s2) {

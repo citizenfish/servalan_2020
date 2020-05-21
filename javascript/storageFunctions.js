@@ -1,6 +1,10 @@
 
 function fileOperations(mode, title) {
 
+    if(mode === 'openbackdrop') {
+        backDropFileLoader.open();
+    }
+
     fileDialog.title = title || (mode + "GPX file");
 
     if(mode !== undefined)

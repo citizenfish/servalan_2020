@@ -16,6 +16,12 @@ MenuBar {
             }
         }
         Action {
+            text: qsTr("&Open Backdrop")
+            onTriggered: {
+                fileManager.fileOperations('openbackdrop');
+            }
+        }
+        Action {
             text: qsTr("&Save")
             onTriggered: {
                 fileManager.fileOperations('save');

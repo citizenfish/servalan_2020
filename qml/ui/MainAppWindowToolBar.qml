@@ -26,6 +26,17 @@ ToolBar {
 
         }
 
+        Button {
+            text: qsTr("+")
+            onClicked: MF.zoom('in');
+
+        }
+
+        Button {
+            text: qsTr("-")
+            onClicked: MF.zoom('out');
+
+        }
         Button{
             text: qsTr("DELETE MARKERS")
             onClicked: {

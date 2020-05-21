@@ -19,6 +19,7 @@ Item {
     property alias selectedEndMarker: gpxDragMarkerView.selectedEndMarker
 
     property alias gpxLine :gpxLine
+
     anchors.fill: parent
     visible: true
 
@@ -70,13 +71,31 @@ Item {
         //Pick up mouseclicks on the map
         MouseArea {
             anchors.fill: parent
-            enabled: mainApplicationWindow.editMode === 'On' ? true : false
+            enabled: true
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             onClicked: {
-                MF.mapClicked(mouse.x,mouse.y, mouse.button)
+                if(mainApplicationWindow.editMode === 'On') {
+                    MF.mapClicked(mouse.x,mouse.y, mouse.button)
+                }
+
+            }
+
+            onDoubleClicked: {
+                MF.mapDoubleClicked(mouse.x,mouse.y, mouse.button)
             }
 
         }
+
+        /*** Backdrop GPX Test ***/
+
+        MapPolyline {
+            id: backdropGPX
+            line.width: 4
+            path: backdropGPXModel.path
+            line.color: 'red'
+            opacity: 0.5
+        }
+
 
         /************ GPX LINE COMPONENT ***********/
 
@@ -91,8 +110,6 @@ Item {
         }
 
 
-
-
         /************* DRAG MARKERS COMPONENT *************/
 
         MapItemView {
@@ -105,6 +122,8 @@ Item {
 
                 }
         }
+
+
 
         /**************** EVENT MANAGEMENT *******************/
         //Update footer status as map is zoomed

@@ -33,6 +33,11 @@ ApplicationWindow {
         id: gpxModel
     }
 
+    //model for a backdrop GPX to trace over
+    GPXModel {
+        id: backdropGPXModel
+    }
+
     //model for waypoints
     GPXWayPointModel{
         id: wpModel
