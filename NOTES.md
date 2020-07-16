@@ -48,3 +48,6 @@ After getting build errors about netcdf I added, not removed path to geos_config
 This did not work so I changed lib and include path tp /opt/local then did CLEAN ALL PROJECTS FOR ALL CONFIGURATIONS and it magically worked, so it is clearly using some other version of gdal from that which I originally built.
 
 
+Alternative markers options
+
+https://doc.qt.io/qt-5/qsortfilterproxymodel.html#details

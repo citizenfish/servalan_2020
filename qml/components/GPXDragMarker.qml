@@ -4,16 +4,16 @@ import QtLocation 5.9
 import "qrc:/javascript/storageFunctions.js" as DB
 import "qrc:/javascript/mapFunctions.js" as MF
 
-MapCircle{
+MapQuickItem{
 
-    center: positionRole
+    coordinate: positionRole
     //This gets me the id of the marker so I can change its position
     property variant itemDetails : itemRole
     property var mDetails //holds drag starting position
 
     id:gpxDragMarker
-    radius: 50
-    color: 'yellow'
+    sourceItem: Rectangle { width: 10; height:10; color: "red"; border.width: 2; border.color: "blue"; smooth: true; radius: 15 }
+    anchorPoint: Qt.point(sourceItem.width/2, sourceItem.height/2)
     opacity: 0.6
 
 
@@ -40,7 +40,7 @@ MapCircle{
         onDragActiveChanged: {
 
             if(!drag.active){
-                MF.marker_dragged();
+                MF.marker_dragged(sourceItem.width/2, sourceItem.height/2);
             }
         }
     }

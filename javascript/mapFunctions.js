@@ -1,6 +1,6 @@
-function marker_dragged() {
+function marker_dragged(xoff,yoff) {
 
-    var coord = mapView.toCoordinate(Qt.point(x,y));
+    var coord = mapView.toCoordinate(Qt.point(x+xoff,y+yoff));
     itemDetails += gpxModel.get_edit_marker_offset();
     DB.modelCommandExecute('updateMarkerLocation', {"coordinate" : coord, "itemDetails" : itemDetails, "oCoordinate" : mDetails});
 
