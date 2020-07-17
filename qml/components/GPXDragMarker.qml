@@ -27,7 +27,7 @@ MapQuickItem{
 
         onEntered: {
             //storing the original position before drag for undo, have to convert to coordinate as center is a varible object and does not serialize
-            mDetails = QtPositioning.coordinate(gpxDragMarker.center.latitude, gpxDragMarker.center.longitude);
+            mDetails = QtPositioning.coordinate(gpxDragMarker.coordinate.latitude, gpxDragMarker.coordinate.longitude);
         }
 
 
@@ -49,15 +49,15 @@ MapQuickItem{
     Component.onCompleted: {
         var position = itemDetails + gpxModel.get_edit_marker_offset()
         if(position  === selectedStartMarker) {
-            color = 'green';
+            sourceItem.color = 'green';
         }
 
         if(position === selectedEndMarker) {
-            color = 'red'
+            sourceItem.color = 'red'
         }
 
         if(position < selectedEndMarker && position > selectedStartMarker){
-            color = 'blue';
+            sourceItem.color = 'blue';
         }
     }
 
