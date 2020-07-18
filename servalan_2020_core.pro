@@ -28,6 +28,7 @@ RESOURCES += \
 DISTFILES += \
     NOTES.md \
     README.md \
+    cycle \
     javascript/mapFunctions.js \
     javascript/storageFunctions.js
 

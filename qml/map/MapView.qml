@@ -15,6 +15,7 @@ Item {
     property alias zoomStackOutdoorPlugin: zoomStackOutdoorPlugin
     property alias zoomStackRoadPlugin: zoomStackRoadPlugin
     property alias zoomStackLightPlugin: zoomStackLightPlugin
+
     property alias selectedStartMarker: gpxDragMarkerView.selectedStartMarker
     property alias selectedEndMarker: gpxDragMarkerView.selectedEndMarker
 
@@ -26,7 +27,24 @@ Item {
     Plugin {
         id: osmPlugin
         name: "osm"
+
+        PluginParameter {
+            name: "osm.mapping.providersrepository.disabled"
+            value: true
+        }
+
+        //NOTE WELL THIS REQUIRES A CUSTOM BUILD OF OSM PLUGIN TO WORK
+        PluginParameter {
+            name: "osm.api.key"
+            value: "1d895cf1b52f404b9ada03ccbc76451c"
+        }
+
+        PluginParameter {
+            name: "osm.mapping.cache.directory"
+            value: "/tmp/osm-cache"
+        }
     }
+
 
     //TODO there must be a better way of selecting Zoomstack styles than this
     Plugin {
@@ -63,7 +81,6 @@ Item {
         id:mapView
         //Alias needed to expose the mapView id up a level
         property alias mapView : mapView
-
         anchors.fill: parent
         center: QtPositioning.coordinate(50.395755, -3.514762)
         zoomLevel: 14
@@ -142,7 +159,9 @@ Item {
             MF.update_location_status();
 
         }
+
     }
+
 
     //Zoom control implemented as a slider
     Slider {

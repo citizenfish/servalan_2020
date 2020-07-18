@@ -48,9 +48,20 @@ Window {
             anchors.fill: parent
             onClicked: {
 
+
                 appMapView.mapView.plugin = mapLookup[mapChooseCombo.currentValue].plugin;
-                mapChooserWindow.visible = false;
                 appMapView.visible = true;
+                //Choose cycle map layer for OSM
+                for( var i_type in appMapView.mapView.supportedMapTypes ) {
+                        if( appMapView.mapView.supportedMapTypes[i_type].name.localeCompare( "Cycle Map" ) === 0 ) {
+                            appMapView.mapView.activeMapType = appMapView.mapView.supportedMapTypes[i_type]
+
+                        }
+
+                }
+
+                mapChooserWindow.visible = false;
+
             }
         }
     }

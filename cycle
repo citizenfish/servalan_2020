@@ -1,0 +1,10 @@
+{
+  "UrlTemplate": "https://tile.thunderforest.com/cycle/%z/%x/%y.png?apikey=1d895cf1b52f404b9ada03ccbc76451c",
+  "ImageFormat": "png",
+  "QImageFormat": "Indexed8",
+  "ID": "thf-cycle",
+  "MaximumZoomLevel": 20,
+  "MapCopyRight": "DAVE BARTER",
+  "DataCopyRight": "DAVE BARTER",
+  "Enabled": false
+}
