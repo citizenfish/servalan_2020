@@ -2,6 +2,8 @@ Maps Plugin development
 
 https://doc-snapshots.qt.io/qt-mobility/location-overview.html#implementing-plugins
 
+http://computerexpress5.blogspot.com/2017/11/briefly-on-how-to-make-your-qt.html
+
 Some examples
 
 https://github.com/vladest?tab=repositories
@@ -51,3 +53,8 @@ This did not work so I changed lib and include path tp /opt/local then did CLEAN
 Alternative markers options
 
 https://doc.qt.io/qt-5/qsortfilterproxymodel.html#details
+
+
+Deployment
+
+http://blog.aeguana.com/2015/12/14/how-to-deploy-a-qt-qml-application-on-mac-part-1/

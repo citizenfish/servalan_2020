@@ -6,6 +6,7 @@
 #include <QDate>
 #include <QQuickItem>
 #include <QXmlStreamReader>
+#include <QDir>
 #include "gdal_priv.h"
 #include "gisfunctions.h"
 
@@ -41,6 +42,18 @@ Q_INVOKABLE int insertMarkerRangeUndo(const int index1, const int count, const i
 Q_INVOKABLE int get_edit_marker_offset() {
     return edit_marker_offset;
 }
+
+//srtm filename to use
+Q_INVOKABLE void setSRTMFile(QString fileName) {
+    const QUrl url(fileName);
+        if (url.isLocalFile()) {
+            srtm_filename = QDir::toNativeSeparators(url.toLocalFile());
+        } else {
+            srtm_filename = fileName;
+        }
+
+    qDebug() << srtm_filename << " set for SRTM operations";
+}
 //Internal methods
 int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -61,6 +74,7 @@ private:
     QVector<waypoint> m_waypoints;
     QUrl m_fileName;
     QString m_trackName = "";
+    QString srtm_filename = "";
 
     QVector<trackpoint> undo_trackpoints;
 

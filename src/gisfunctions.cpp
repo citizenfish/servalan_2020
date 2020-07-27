@@ -60,7 +60,7 @@ int indexCoordinate(QVector<trackpoint> &trackpoints, const QGeoCoordinate coord
 
 }
 
-QVector<trackpoint> addHeight( QVector<trackpoint> trackpointsVectors, const int index, const int limit) {
+QVector<trackpoint> addHeight( QVector<trackpoint> trackpointsVectors, const int index, const int limit, const QString pzFileName) {
 
     //gdal stuff
     GDALDataset *testDataSet;
@@ -76,10 +76,16 @@ QVector<trackpoint> addHeight( QVector<trackpoint> trackpointsVectors, const int
 
     GDALAllRegister();
 
-    const char *pzFileName = nullptr;
+    if(pzFileName == "")
+        return trackpointsVectors;
+
+    //Horrible conversion from QString
+    QByteArray ba = pzFileName.toLocal8Bit();
+    const char *fname = ba.data();
+
     //TODO find a way to do this in qrc file, think it may be impossible
-    pzFileName = "/Users/daveb/dev/servalan_2020/srtm_data/all_uk_data.tif";
-    testDataSet =  (GDALDataset *) GDALOpen(pzFileName,GA_ReadOnly);
+    //pzFileName = "/Users/daveb/dev/servalan_2020/srtm_data/all_uk_data.tif";
+    testDataSet =  (GDALDataset *) GDALOpen(fname,GA_ReadOnly);
     heightBand = testDataSet->GetRasterBand(1);
     //Transformers from coordinate to pixel grid
     if( GDALGetGeoTransform( testDataSet, adfGeoTransform ) != CE_None ) {

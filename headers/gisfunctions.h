@@ -34,7 +34,7 @@ double latlondist_vincenty(QGeoCoordinate coord1, QGeoCoordinate coord2);
 double toRad(double deg);
 double toDeg(double rad);
 
-QVector<trackpoint> addHeight( QVector<trackpoint> trackpoints, const int start, const int end);
+QVector<trackpoint> addHeight( QVector<trackpoint> trackpoints, const int start, const int end, const QString pzFileName = nullptr);
 int indexCoordinate(QVector<trackpoint> &trackpoints, const QGeoCoordinate coordinate, bool insert = true);
 
 #endif // GISFUNCTIONS_H

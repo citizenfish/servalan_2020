@@ -25,6 +25,8 @@ Q_INVOKABLE int GPXModel::addMarker(const QGeoCoordinate coordinate, bool append
         m_trackpoints.append(item);
     }
 
+    //Add height to our new marker
+    m_trackpoints = addHeight(m_trackpoints,index,1,srtm_filename);
     setEditLocation(index);
     return index;
 }
@@ -167,7 +169,7 @@ Q_INVOKABLE QGeoCoordinate GPXModel::updateMarkerLocation(const QGeoCoordinate &
 
 
     m_trackpoints[index].latlon = coordinate;
-    m_trackpoints = addHeight(m_trackpoints,index,1); //need to update the height value as well
+    m_trackpoints = addHeight(m_trackpoints,index,1,srtm_filename); //need to update the height value as well
     setEditLocation(index);
     return coordinate;
 }

@@ -1,6 +1,11 @@
 
 function fileOperations(mode, title) {
 
+    if(mode === 'srtm'){
+        srtmFileChooser.open();
+    }
+
+
     if(mode === 'openbackdrop') {
         backDropFileLoader.open();
     }

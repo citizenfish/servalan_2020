@@ -23,6 +23,7 @@
         <file>qml/ui/MainAppWindowMenuBar.qml</file>
         <file>qml/ui/MainAppWindowSideBar.qml</file>
         <file>qml/ui/MainAppWindowToolBar.qml</file>
+        <file>qml/imports.qml</file>
     </qresource>
     <qresource prefix="/images"/>
 </RCC>

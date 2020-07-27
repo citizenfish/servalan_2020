@@ -55,6 +55,17 @@ Item {
 
     }
 
+    FileDialog {
+        id: srtmFileChooser
+        defaultSuffix:  'tif'
+        nameFilters: ["TIF Files(*.tif)", "All Files (*)"]
+
+        onAccepted: {
+            mainApplicationWindowSettings.srtm_height = srtmFileChooser.fileUrl
+            gpxModel.setSRTMFile(srtmFileChooser.fileUrl)
+        }
+    }
+
     MessageDialog {
 
             //Modal window used for warnings during file operations

@@ -2,6 +2,7 @@ import QtQuick 2.14
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.5
 import QtQuick.Dialogs 1.2
+import Qt.labs.settings 1.0
 
 import GPXModel 1.0
 
@@ -13,6 +14,16 @@ import "qrc:/qml/map"
 ApplicationWindow {
 
     id:mainApplicationWindow
+
+    Settings {
+        id: mainApplicationWindowSettings
+        property alias x: mainApplicationWindow.x
+        property alias y: mainApplicationWindow.y
+        property alias width: mainApplicationWindow.width
+        property alias height: mainApplicationWindow.height
+        property  var srtm_height: ''
+    }
+
     width: 1512
     height: 1000
     visible: true
@@ -81,6 +92,9 @@ ApplicationWindow {
     Component.onCompleted: {
         //Window to choose the map type
         mapChooserWindow.visible = true;
+        if(mainApplicationWindowSettings.srtm_height != '') {
+            gpxModel.setSRTMFile(mainApplicationWindowSettings.srtm_height);
+        }
       }
 
     Shortcut {

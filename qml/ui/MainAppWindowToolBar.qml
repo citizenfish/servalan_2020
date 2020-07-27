@@ -37,14 +37,19 @@ ToolBar {
             onClicked: MF.zoom('out');
 
         }
+
         Button{
             text: qsTr("DELETE MARKERS")
             onClicked: {
-
-                //var del =gpxModel.deleteMarkerRange(appMapView.selectedStartMarker, appMapView.selectedEndMarker);
-
                 var del = DB.modelCommandExecute('deleteMarkerRange', {"start" : appMapView.selectedStartMarker, "end" : appMapView.selectedEndMarker});
                 console.log("Command output "+ del);
+            }
+        }
+
+        Button{
+            text: qsTr("SRTM")
+            onClicked: {
+                fileManager.fileOperations('srtm', 'Choose SRTM Height File');
             }
         }
     }
