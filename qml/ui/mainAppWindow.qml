@@ -16,12 +16,14 @@ ApplicationWindow {
     id:mainApplicationWindow
 
     Settings {
+        //Note that this appears to be instantiated after onCompleted Component.onCompleted so the api key is not known
         id: mainApplicationWindowSettings
         property alias x: mainApplicationWindow.x
         property alias y: mainApplicationWindow.y
         property alias width: mainApplicationWindow.width
         property alias height: mainApplicationWindow.height
         property  var srtm_height: ''
+        property var osm_thunderforest_api_key: 'FOO'
     }
 
     width: 1512
@@ -91,6 +93,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         //Window to choose the map type
+
         mapChooserWindow.visible = true;
         if(mainApplicationWindowSettings.srtm_height != '') {
             gpxModel.setSRTMFile(mainApplicationWindowSettings.srtm_height);

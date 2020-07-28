@@ -53,9 +53,8 @@ Window {
                 appMapView.visible = true;
                 //Choose cycle map layer for OSM
                 for( var i_type in appMapView.mapView.supportedMapTypes ) {
-                        if( appMapView.mapView.supportedMapTypes[i_type].name.localeCompare( "Cycle Map" ) === 0 ) {
+                        if( appMapView.mapView.supportedMapTypes[i_type].name.localeCompare( "Cycle Map" ) === 0) {
                             appMapView.mapView.activeMapType = appMapView.mapView.supportedMapTypes[i_type]
-
                         }
 
                 }

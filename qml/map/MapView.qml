@@ -36,13 +36,9 @@ Item {
         //NOTE WELL THIS REQUIRES A CUSTOM BUILD OF OSM PLUGIN TO WORK
         PluginParameter {
             name: "osm.api.key"
-            value: "1d895cf1b52f404b9ada03ccbc76451c"
+            value: mainApplicationWindowSettings.osm_thunderforest_api_key
         }
 
-        PluginParameter {
-            name: "osm.mapping.cache.directory"
-            value: "/tmp/osm-cache"
-        }
     }
 
 

@@ -54,7 +54,16 @@ Alternative markers options
 
 https://doc.qt.io/qt-5/qsortfilterproxymodel.html#details
 
+OSM Layers
+
+I am editing the file qgeotilemappingmangerengineosm.cpp to set API keys and layers
+
 
 Deployment
 
 http://blog.aeguana.com/2015/12/14/how-to-deploy-a-qt-qml-application-on-mac-part-1/
+
+How to build locally
+
+cd ~/dev/Qt/5.14.2/clang_64/bin/macdeployqt
+./macdeployqt ~/dev/build-servalan_2020_core-Desktop_Qt_5_14_2_clang_64bit-Release/servalan_2020_core.app/ -qmldir=/Users/daveb/dev/servalan_2020/qml/ -always-overwrite -verbose=2 -dmg
