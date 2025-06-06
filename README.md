@@ -40,4 +40,4 @@ You need to install Qt 5.14 and then clone the repository to a local directory. 
 
 ## Stability
 
-This is NOT a stable release. It is primarily a learning exercise as I work out how to do various bits and pieces. But pleae feel free to raise any issues or chuck up any ideas for development.
+This is NOT a stable release. It is primarily a learning exercise as I work out how to do various bits and pieces. But please feel free to raise any issues or chuck up any ideas for development.
